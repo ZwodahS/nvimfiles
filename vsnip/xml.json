@@ -1,0 +1,22 @@
+{
+  "group": {
+    "prefix": "group",
+    "body": [
+      "<group id=\"${1:id}\">",
+      "\t$2",
+      "</group>"
+    ]
+  },
+  "text": {
+    "prefix": "text",
+    "body": [
+      "<text id=\"${1:id}\">$2</text>"
+    ]
+  },
+  "tag": {
+    "prefix": "<",
+    "body": [
+      "<${1:} ${2:}>${3:}</1>"
+    ]
+  }
+}

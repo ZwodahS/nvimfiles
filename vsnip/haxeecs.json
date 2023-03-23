@@ -1,0 +1,390 @@
+{
+  "identifier": {
+    "prefix": ["identifier"],
+    "body": [
+      "public function identifier(): String {",
+      "\treturn ${1:this.id};",
+      "}"
+    ]
+  },
+  "ClassMessage": {
+    "prefix": ["classMessage"],
+    "body": [
+      "package ${1:world.messages};",
+      "",
+      "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
+      "\tpublic static final MessageType = \"$2\";",
+      "",
+      "\tpublic function new() {",
+      "\t\tsuper(MessageType);",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a message class from template."
+  },
+  "ClassSystem": {
+    "prefix": ["classSystem"],
+    "body": [
+      "package ${1:world.systems};",
+      "",
+      "class ${2:$TM_FILENAME_BASE} extends System {",
+      "",
+      "\tpublic function new() {",
+      "\t\tsuper();",
+      "\t}",
+      "",
+      "\toverride public function init(world: zf.engine2.World) {",
+      "\t\tsuper.init(world);",
+      "\t}",
+      "\toverride public function onEvent(event: hxd.Event): Bool {",
+      "\t\treturn false;",
+      "\t}",
+      "",
+      "\t/**",
+      "\t\treset the system to the same state after constructor",
+      "\t**/",
+      "\toverride public function reset() {",
+      "\t\tsuper.reset();",
+      "\t}",
+      "",
+      "\t/**",
+      "\t\tDispose the system data",
+      "\t**/",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t}",
+      "",
+      "\t/**",
+      "\t\tupdate loop",
+      "\t**/",
+      "\toverride public function update(dt: Float) {",
+      "\t\tsuper.update(dt);",
+      "\t}",
+      "",
+      "\toverride public function onEntityAdded(entity: zf.engine2.Entity) {",
+      "\t\tsuper.onEntityAdded(entity);",
+      "\t\tfinal e: Entity = cast entity;",
+      "\t}",
+      "",
+      "\toverride public function onEntityRemoved(entity: zf.engine2.Entity) {",
+      "\t\tsuper.onEntityRemoved(entity);",
+      "\t\tfinal e: Entity = cast entity;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a system class from template."
+  },
+  "ClassComponent": {
+    "prefix": ["classComponent"],
+    "body": [
+      "package ${3:world.components};",
+      "",
+      "typedef ${1:$TM_FILENAME_BASE}SF = {",
+      "}",
+      "",
+      "class $1 extends Component {",
+      "\tpublic static final ComponentType = \"$1\";",
+      "",
+      "\toverride public function get_typeId(): String {",
+      "\t\treturn ComponentType;",
+      "\t}",
+      "",
+      "\tpublic function new() {}",
+      "",
+      "\toverride public function toStruct(context: SerialiseContext, option: SerialiseOption): Dynamic {",
+      "\t\treturn {};",
+      "\t}",
+      "\toverride public function loadStruct(context: SerialiseContext, option: SerialiseOption, conf: Dynamic): Component {",
+      "\t\tfinal sf: CropStateComponent = cast conf;",
+      "\t\treturn this;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a component class from template"
+  },
+  "ClassEntity": {
+    "prefix": ["classEntity"],
+    "body": [
+      "package world.entities;",
+      "",
+      "class ${1:$TM_FILENAME_BASE} extends Entity {",
+      "",
+      "\tpublic function new(id: Int, typeId: String, rules: Rules, conf: $1Conf) {",
+      "\t\tsuper(id, typeId);",
+      "\t\tthis.rules = rules;",
+      "\t\tthis.kind = EntityKind.$1;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create engine2.Entity from template"
+  },
+  "ClassEntityFactory": {
+    "prefix": ["classEntityFactory"],
+    "body": [
+      "package world.factories;",
+      "",
+      "class ${1:$TM_FILENAME_BASE} extends EntityFactory {",
+      "\tpublic var conf: ${2:Entity}Conf;",
+      "",
+      "\tpublic function new(rules: Rules, conf: $2Conf) {",
+      "\t\tsuper(conf.id, rules);",
+      "\t\tthis.conf = conf;",
+      "\t}",
+      "",
+      "\t// ---- Make / Save / Load ---- //",
+      "\toverride public function make(id: Int, worldState: WorldState, conf: Dynamic = null): Entity {",
+      "\t\tfinal entity = new $2(id, this.typeId, this.rules, this.conf);",
+      "\t\tentity.factory = this;",
+      "\t\treturn entity;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a engine2.EntityFactory from template"
+  },
+  "ClassUIElement": {
+    "prefix": ["classUIElement"],
+    "body": [
+      "class ${1:$TM_FILENAME_BASE} extends UIElement {",
+      "",
+      "\tpublic var display: h2d.Object;",
+      "",
+      "\tpublic function new() {",
+      "\t\tsuper();",
+      "",
+      "\t\tthis.addChild(this.display = new h2d.Object());",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a empty UIElement"
+  },
+
+
+
+  "ComponentVar": {
+    "prefix": ["publicvarcomponent"],
+    "body": [
+      "public var ${1:component}(default, set): ${2:Component};",
+      "",
+      "public function set_$1(component: $2): $2 {",
+      "\tfinal prev = this.$1;",
+      "\tthis.$1 = component;",
+      "\tonComponentChanged(prev, this.$1);",
+      "\treturn this.$1;",
+      "}"
+    ],
+    "description": "engine2 component variable"
+  },
+
+  "ListenMessage": {
+    "prefix": ["mListen", "dispatcher.listen"],
+    "body": [
+      "// @:listen $TM_FILENAME_BASE ${1:Message} ${2:0} $4",
+      "${3:dispatcher}.listen($1.MessageType, (message: zf.Message) -> {",
+      "\tfinal m: $1 = cast message;",
+      "\thandle$1(m);",
+      "}, $2);"
+    ],
+    "description": ""
+  },
+  "ListenMessageFunction": {
+    "prefix": ["mHandle", "handleFunc"],
+    "body": [
+      "function handle${1:Message}(m: $1) {",
+      "}"
+    ]
+  },
+
+
+  "DynamicTypeClassDefinition": {
+    "prefix": ["classDynamicType"],
+    "body": [
+      "package world.rules;",
+      "",
+      "typedef ${1:$TM_FILENAME_BASE}Conf = {",
+      "\tpublic var id: String;",
+      "\tpublic var name: String;",
+      "\tpublic var assetId: String;",
+      "}",
+      "",
+      "/**",
+      "\tDefine a type that is dynamically loaded from file",
+      "**/",
+      "class $1 extends DynamicType {",
+      "\tvar conf: $1Conf;",
+      "",
+      "\tpublic var id(get, never): String;",
+      "",
+      "\tfunction get_id()",
+      "\t\treturn conf.id;",
+      "",
+      "\tpublic var name(get, never): String;",
+      "",
+      "\tfunction get_name()",
+      "\t\treturn conf.name;",
+      "",
+      "\tpublic var assetId(get, never): String;",
+      "",
+      "\tfunction get_assetId()",
+      "\t\treturn conf.assetId;",
+      "",
+      "\tpublic function new(conf: $1Conf) {",
+      "\t\tthis.conf = conf;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a dynamic type"
+  },
+  "DynamicTypeRulesLoading": {
+    "prefix": ["DynamicTypeRulesLoad", "loadDynamicType"],
+    "body": [
+      "/**",
+      "\tLoad Dynamic type from file.",
+      "\tThis loads into both Rules.${1:Type} as Dynamic and Rules.${2:types} as Map",
+      "",
+      "\tconfig.hs will requires the conf to be stored as $2.",
+      "**/",
+      "public var $1: Dynamic;",
+      "public var $2: Map<String, $1>;",
+      "function load$1(configPath: haxe.io.Path, conf: RulesConf) {",
+      "\tif (this.$1 == null) this.$1 = {};",
+      "\tif (this.$2 == null) this.$2 = new Map<String, $1>();",
+      "\tfinal t: DynamicAccess<Dynamic> = this.$1;",
+      "\tfunction add(type: $1) {",
+      "\t\tthis.$2[type.id] = type;",
+      "\t\tt.set(type.name, type);",
+      "\t}",
+      "",
+      "\tfinal path = haxe.io.Path.join([configPath.dir, conf.$2]);",
+      "\tfinal data: Array<Dynamic> = this.interp.execute(this.parser.parseString(this.structLoader.loadFile(path)));",
+      "",
+      "\tfor (t in data) {",
+      "\t\tfinal conf: $1.$1Conf = t;",
+      "\t\tfinal tt = new $1(conf);",
+      "\t\tadd(tt);",
+      "\t}",
+      "}"
+    ]
+  },
+
+  "EnumAbstract": {
+    "prefix": ["enumabstract"],
+    "body": [
+      "enum abstract ${1:$TM_FILENAME_BASE}(${2:String}) from $2 to $2 {",
+      "}"
+    ]
+  },
+
+  "TestWithoutWorld": {
+    "prefix": ["classTestCase"],
+    "body": [
+      "package tests;",
+      "",
+      "/**",
+      "\tA template for test cases without World object",
+      "**/",
+      "class ${1:$TM_FILENAME_BASE} extends TestCase {",
+      "\tpublic static final Name = \"template\";",
+      "",
+      "\tpublic function new(testId: String) {",
+      "\t\tsuper(testId, Name);",
+      "\t}",
+      "",
+      "\toverride function setup() {",
+      "\t\tsuper.setup();",
+      "\t\tinitSteps();",
+      "\t}",
+      "",
+      "\tfunction initSteps() {",
+      "\t\trun(() -> {",
+      "\t\t});",
+      "\t}",
+      "}"
+    ],
+    "description": "Test Template Without World"
+  },
+  "TestWithWorld": {
+    "prefix": ["classWorldTestCase"],
+    "body": [
+      "package tests;",
+      "",
+      "class ${1:$TM_FILENAME_BASE} extends WorldTestCase {",
+      "\tpublic static final Name = \"$1\";",
+      "",
+      "\tpublic function new(testId: String) {",
+      "\t\tsuper(testId, Name);",
+      "\t}",
+      "",
+      "\toverride function setup() {",
+      "\t\tsuper.setup();",
+      "\t\tinitSteps();",
+      "\t}",
+      "",
+      "\tfunction initSteps() {",
+      "\t\trun(() -> {",
+      "\t\t});",
+      "\t}",
+      "}"
+    ],
+    "description": "Test Template Without World"
+  },
+  "run": {
+    "prefix": ["run"],
+    "body": [
+      "run(() -> {",
+      "\tfinal state = this.world.worldState;",
+      "\t${1}",
+      "});"
+    ],
+    "description": "run with a state for test case"
+  },
+
+  "uiComponent": {
+    "prefix": ["classUIComponent"],
+    "body": [
+      "package ui.components;",
+      "",
+      "class ${1:$TM_FILENAME_BASE} extends zf.ui.builder.Component {",
+      "\tpublic function new() {",
+      "\t\tsuper(\"${2:}\");",
+      "\t}",
+      "",
+      "\toverride public function makeFromStruct(s: Dynamic, context: BuilderContext): h2d.Object {",
+      "\t\treturn make(zf.Access.struct(s), context);",
+      "\t}",
+      "",
+      "\toverride public function makeFromXML(element: Xml, context: BuilderContext): h2d.Object {",
+      "\t\treturn make(zf.Access.xml(element), context);",
+      "\t}",
+      "",
+      "\tfunction make(conf: zf.Access, context: BuilderContext): h2d.Object {",
+      "\t\tfinal component = new ui.$1();",
+      "\t\tif (conf.getString(\"name\") != null) component.name = conf.getString(\"name\");",
+      "\t\treturn component;",
+      "\t}",
+      "}"
+    ]
+  },
+
+  "Serialisable": {
+    "prefix": ["serialise"],
+    "body": [
+      "/**",
+      "\tConvert to struct",
+      "\t@return the struct representing the object",
+      "**/",
+      "public function toStruct(context: SerialiseContext, option: SerialiseOption): Dynamic {",
+      "\tfinal sf: ${1:$TM_FILENAME_BASE}SF = {};",
+      "\treturn sf;",
+      "}",
+      "",
+      "/**",
+      "\tLoad from struct.",
+      "\t@return the object itself to allow for chaining",
+      "**/",
+      "public function loadStruct(context: SerialiseContext, option: SerialiseOption, data: Dynamic): $1 {",
+      "\tfinal sf: ${1}SF = data;",
+      "\treturn this;",
+      "}"
+    ]
+  }
+}

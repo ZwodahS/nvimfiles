@@ -1,0 +1,202 @@
+{
+  "CommentLine": {
+    "prefix": [ "commentline", "****"],
+    "body": [
+    ],
+    "description": "Comment line"
+  },
+  "CommentBlock": {
+    "prefix": ["commentblock", "**"],
+    "body": [
+      "/**",
+      "\t${0}",
+      "**/"
+    ],
+    "description": "Comment block"
+  },
+  "Nolint": {
+    "prefix": ["nolint"],
+    "body": [
+      "// @formatter:off"
+    ],
+    "description": "Add no lint formatter comment"
+  },
+  "Function": {
+    "prefix": ["function"],
+    "body": [
+      "/**",
+      "${5}",
+      "**/",
+      "${4}function ${1:fN} ($2): ${3} {",
+      "}"
+    ]
+  },
+  "Public function": {
+    "prefix": ["pfunc", "pfunct", "pfuncti", "pfunction"],
+    "body": [
+      "public function ${1:fN}($2): ${3} {"
+    ]
+  },
+  "Breakpoint": {
+    "prefix": ["db"],
+    "body": [
+      "Debug.breakpoint();"
+    ]
+  },
+  "PrintVar": {
+    "prefix": ["printVar", "pv"],
+    "body": [
+      "Logger.debug('${1:var}: \\${$1}');"
+    ]
+  },
+  "TypeName": {
+    "prefix": ["TypeName", "TN"],
+    "body": [
+      "public static final TypeName = \"${2:$TM_FILENAME_BASE}\";"
+    ]
+  },
+  "FinalStaticString": {
+    "prefix": ["finalstring", "const"],
+    "body": [
+      "public static final ${1:String}: String = \"$1\";"
+    ]
+  },
+  "StringEnum": {
+    "prefix": ["strenum"],
+    "body": [
+      "public var ${1} = \"${1}\";"
+    ]
+  },
+  "CommentHeader": {
+    "prefix": ["----"],
+    "body": [
+      "// ---- ${1} ---- //"
+    ]
+  },
+  "Ternary Assignment": {
+    "prefix": [":="],
+    "body": [
+      "${1} = $1 != ${3:null} ? $1 : ${2:defaultValue}"
+    ]
+  },
+  "publicvar": {
+    "prefix": ["var"],
+    "body": [
+      "${3:public} var ${1:name}: ${2:type};"
+    ]
+  },
+  "vargetnever": {
+    "prefix": ["vargetnever", "vgn", "vargn"],
+    "body": [
+      "${4:public} var ${1:name}(get, never): ${2:type};",
+      "",
+      "public function get_$1(): $2 {",
+      "\treturn ${3:returnValue};",
+      "}"
+    ]
+  },
+  "vargetset": {
+    "prefix": ["vargetset", "vgs", "vargs"],
+    "body": [
+      "${4:public} var ${1:name}(get, set): ${2:type};",
+      "",
+      "public function get_$1(): $2 {",
+      "\treturn ${3:returnValue};",
+      "}",
+      "",
+      "public function set_$1(v: $2): $2 {",
+      "}"
+    ]
+  },
+  "vardefaultget": {
+    "prefix": ["vardefaultset", "vds", "vards"],
+    "body": [
+      "${3:public} var ${1:name}(default, set): ${2:type};",
+      "",
+      "public function set_$1(v: $2): $2 {",
+      "\tthis.$1 = v;",
+      "\treturn this.$1;",
+      "}"
+    ]
+  },
+  "vardefaultnull": {
+    "prefix": ["vardefaultnull", "vdn", "vardn"],
+    "body": [
+      "${3:public} var ${1:name}(default, null): ${2:type};"
+    ]
+  },
+
+  "ifnotnull": {
+    "prefix": ["ifnotnullset"],
+    "body": [
+      "if (${1:target} != null) ${2:prop} = $1;"
+    ]
+  },
+
+  "objectIdAbstract": {
+    "prefix": ["either"],
+    "body": [
+      "package world.ds;",
+      "",
+      "import haxe.ds.Either;",
+      "",
+      "abstract ${1:$TM_FILENAME_BASE}(Either<${2:L}, ${3:R}>) from Either<$2, $3> to Either<$2, $3> {",
+      "\t@:from inline static function from_${4:left}($4: $2): $1 {",
+      "\t\treturn Left($4);",
+      "\t}",
+      "",
+      "\t@:from inline static function from_${5:right}($5: $3): $1 {",
+      "\t\treturn Right($5);",
+      "\t}",
+      "",
+      "\t@:to inline function to_$4(): Null<$2> {",
+      "\t\treturn switch (this) {",
+      "\t\t\tcase Left($4): $4;",
+      "\t\t\tdefault: null;",
+      "\t\t}",
+      "\t}",
+      "",
+      "\t@:to inline function to_$5(): Null<$3> {",
+      "\t\treturn switch (this) {",
+      "\t\t\tcase Right($5): $5;",
+      "\t\t\tdefault: null;",
+      "\t\t}",
+      "\t}",
+      "",
+      "\tpublic var ${4}(get, never): $2;",
+      "",
+      "\tpublic function get_${4}(): $2 {",
+      "\t\treturn switch(this) {",
+      "\t\t\tcase Left($4): $4;",
+      "\t\t\tdefault: null;",
+      "\t\t};",
+      "\t}",
+      "",
+      "\tpublic var ${5}(get, never): $3;",
+      "",
+      "\tpublic function get_${5}(): $3 {",
+      "\t\treturn switch(this) {",
+      "\t\t\tcase Right($5): $5;",
+      "\t\t\tdefault: null;",
+      "\t\t}",
+      "\t}",
+      "}"
+    ]
+  },
+
+  "for": {
+    "prefix": ["for"],
+    "body": [
+      "for (${1:x} in ${2:y}) {",
+      "}"
+    ]
+  },
+
+  "forint": {
+    "prefix": ["fori", "forint"],
+    "body": [
+      "for (${1:x} in ${3:0}...${2:y}) {",
+      "}"
+    ]
+  }
+}
