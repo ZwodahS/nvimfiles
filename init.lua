@@ -19,7 +19,7 @@ vim.g.plugins = vim.fn.stdpath("config") .. "/lua/conf/lazy.lua"
 -- Load all the plugins
 require("conf.lazy") -- load the plugins
 require("conf.settings")
-require("conf.theme")
+require("conf.theme").setup()
 
 require("conf.lsp")
 require("conf.hop")

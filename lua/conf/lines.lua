@@ -1,25 +1,24 @@
 ---- Tabline configuration
 -- via https://github.com/rafcamlet/tabline-framework.nvim
-local colors = require("tokyonight.colors").setup()
-local status_color = require("lualine.themes.tokyonight")
+local colors = require("conf.theme").colors
 
 local render = function(f)
     local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
     local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
     local hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
 
-    f.add({ '  ' .. errors, fg = "#db4b4b" })
-    f.add({ '  ' .. warnings, fg = "#e0af68"})
-    f.add({ '  ' .. hints, fg = "#41a6b5"})
+    f.add({ '  ' .. errors, fg = colors.status_color.errors })
+    f.add({ '  ' .. warnings, fg = colors.status_color.warnings})
+    f.add({ '  ' .. hints, fg = colors.status_color.hints})
 
-    f.add({'  ', fg = status_color.normal.b.fg})
+    f.add({'  ', fg = colors.status_color.fg})
 
     f.make_tabs(function(info)
         if info.current then
-            f.add({'', fg = status_color.normal.b.fg, bg = status_color.normal.c.bg})
+            f.add({'', fg = colors.status_color.fg, bg = colors.status_color.bg})
         else
             f.add('.')
-            f.add({info.index, fg="#89ddff"})
+            f.add({info.index, fg = colors.status_color.fg, bg = colors.status_color.bg})
             f.add('.')
         end
 
@@ -35,7 +34,7 @@ local render = function(f)
 
         if info.current then
             f.add(' ')
-            f.add({'', fg = status_color.normal.b.fg, bg = status_color.normal.c.bg})
+            f.add({'', fg = colors.status_color.fg, bg = colors.status_color.bg})
         else
             f.add(' ')
         end
@@ -43,8 +42,8 @@ local render = function(f)
 
     f.add_spacer()
     if vim.g.project_file then
-        f.add({'', fg = status_color.normal.b.fg})
-        f.add({'  Project Conf Loaded ', bg = status_color.normal.a.bg, fg = status_color.normal.a.fg})
+        f.add({'', fg = colors.status_color.fg})
+        f.add({'  Project Conf Loaded ', bg = colors.status_color.fg, fg = colors.status_color.white})
     end
 
 end
@@ -52,6 +51,13 @@ require('tabline_framework').setup({
   -- Render function is resposible for generating content of tabline
   -- This is the place where you do your magic!
   render = render,
+  hl = { fg = colors.status_color.fg, bg = colors.status_color.bg },
+  -- Default color of selected item
+  -- if not set TF uses TabLineSel highlight group colors
+  hl_sel = { fg = colors.status_color.white, bg = colors.status_color.fg },
+  -- Default color of everything except items
+  -- if not set TF uses TabLineFill highlight group colors
+  hl_fill = { fg = colors.status_color.fg, bg = colors.status_color.bg },
 })
 
 ----

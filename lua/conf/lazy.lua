@@ -14,6 +14,7 @@ require("lazy").setup({
 	---- Themes && UI ----
 	-- Theme
 	{ "folke/tokyonight.nvim", branch = "main", priority = 999 },
+  { "savq/melange-nvim" },
 	-- Devicons
 	"kyazdani42/nvim-web-devicons",
 	"ZwodahS/nvim-colorizer.lua",
