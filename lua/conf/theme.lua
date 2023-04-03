@@ -89,7 +89,7 @@ M.setup = function ()
   elseif colorscheme == "melange" then
     local c = require("melange.palettes.dark")
     local melange_extensions = {
-      ZDatetime = { fg = blend(c.a.com, c.a.fg, 0.3) },
+      ZDatetime = { fg = blend(c.b.blue, c.a.com, 0.6) },
       ZStop = { fg = "#FF0000" },
       ZSpecialRed = { fg = c.b.red },
       ZSpecialGreen = { fg = c.b.green },
@@ -102,7 +102,7 @@ M.setup = function ()
       HopNextKey = { fg = c.b.green, bold = true },
       HopNextKey1 = { fg = c.b.yellow, bold = true },
       HopNextKey2 = { fg = c.b.cyan },
-      HopUnmatched = { fg = c.blue },
+      HopUnmatched = { fg = c.b.blue },
     }
 
     -- Enable these for Melange

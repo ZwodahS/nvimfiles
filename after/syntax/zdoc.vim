@@ -26,6 +26,7 @@ if exists('b:current_syntax')
     finish
 endif
 
+" Additional Syntax
 syn match zdoc_title "\v^\s*#.*"
 syn match zdoc_question '\v^\s*\?.*'
 syn match zdoc_exclaimation '\v^\s*\!.*'

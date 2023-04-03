@@ -1,6 +1,7 @@
 local m = require('conf.mappings')
 local api = vim.api
 local vim_home = vim.fn.stdpath("config")
+vim.g.vim_home = vim_home
 vim.g.python3_host_prog = vim_home .. "/venv3/bin/python"
 ------ Color Column
 

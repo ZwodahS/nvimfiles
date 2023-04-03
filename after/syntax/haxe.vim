@@ -1,16 +1,11 @@
-" Thu 14:10:01 24 Feb 2022
-" I think there is a better way to do this
-" Should investigate
-syn keyword haxeTODO TODO FIXME TOFIX LOGS NOTE QUESTION IDEA
-
-syn match ZCommentSpecial1 "@fixme"
-
+" Additional Syntax
 syn match haxeAt "@[^ ]\+" contained
+
 syn match formatterOff "@formatter:off"
 syn keyword logger Logger
 syn keyword assert Assert
-syn match haxeComment "//.*" contains=haxeTODO,@Spell,ZDatetime,formatterOff,ZStop,ZCommentSpecial1,ZCommentSpecial2,ZCommentSpecial3
-syn region haxeComment2 start=+/\*+ end=+\*/+ contains=haxeTODO,@Spell,ZDatetime,haxeAt,MDTitle,MDBullet,ZStop,ZCommentSpecial1,ZCommentSpecial2,ZCommentSpecial3
+syn match haxeComment "//.*" contains=haxeTODO,@Spell,ZDatetime,formatterOff,ZStop,ZCommentSpecial1,ZCommentSpecial2,ZCommentSpecial3,haxeAt,
+syn region haxeComment2 start=+/\*+ end=+\*/+ contains=haxeTODO,@Spell,ZDatetime,MDTitle,MDBullet,ZStop,ZCommentSpecial1,ZCommentSpecial2,ZCommentSpecial3,haxeAt,
 syn match MDTitle "\v^\s*#+ .*" contained
 syn match MDBullet '\v^\s*\-' contained
 
