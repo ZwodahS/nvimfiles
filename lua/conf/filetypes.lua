@@ -27,9 +27,4 @@ augroup END
 "    autocmd BufRead,BufNewFile *.hx syn match ZCommentSpecial2 "@introduce"
 "    autocmd BufRead,BufNewFile *.hx syn match ZCommentSpecial2 "@assumption"
 "augroup END
-
-augroup autostart
-    autocmd TabNew * TagbarToggle
-    autocmd VimEnter * TagbarToggle
-augroup END
 ]])
