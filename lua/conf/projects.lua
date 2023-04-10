@@ -7,7 +7,7 @@ require("local") -- this is never committed, project_hash is also set there
 vim.cmd([[
 let $localfile=join([getcwd(), "/.project.", g:project_hash, ".vim"], '')
 if (g:project_hash != '' && filereadable($localfile))
-    source $localfile
-    let g:project_file = 1
+	source $localfile
+	let g:project_file = 1
 endif
 ]])

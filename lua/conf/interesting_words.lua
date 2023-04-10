@@ -1,19 +1,21 @@
 vim.cmd([[
 """" Interesting words, taken from https://github.com/nicknisi/dotfiles
 function! Match(word, color)
-    " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
-    let mid = 171959 + a:color
-    " Clear existing matches, but don't worry if they don't exist.
-    silent! call matchdelete(mid)
-    " Construct a literal pattern that has to match at boundaries.
-    let pat = '\V\<' . escape(a:word, '\') . '\>'
-    " Actually match the words.
-    call matchadd("InterestingWord" . a:color, pat, 1, mid)
+	" Calculate an arbitrary match ID.	Hopefully nothing else is using it.
+	let mid = 171959 + a:color
+	" Clear existing matches, but don't worry if they don't exist.
+	silent! call matchdelete(mid)
+	" Construct a literal pattern that has to match at boundaries.
+	let pat = '\V\<' . escape(a:word, '\') . '\>'
+	" Actually match the words.
+	call matchadd("InterestingWord" . a:color, pat, 1, mid)
 endfunction
+
 function! HiInterestingWord(n)
-    let word = expand('<cword>')
-    call Match(word, a:n)
+	let word = expand('<cword>')
+	call Match(word, a:n)
 endfunction
+
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
 nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
 nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
