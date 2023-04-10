@@ -14,8 +14,8 @@ require("lazy").setup({
 	---- Themes && UI ----
 	-- Theme
 	{ "folke/tokyonight.nvim", branch = "main", priority = 999 },
-	{ "savq/melange-nvim" },
-	{ "sainnhe/everforest" },
+	{ "savq/melange-nvim", priority = 999 },
+	{ "sainnhe/everforest", priority = 999 },
 	-- Devicons
 	"kyazdani42/nvim-web-devicons",
 	"ZwodahS/nvim-colorizer.lua",
@@ -109,7 +109,6 @@ require("lazy").setup({
 	{ "jdonaldson/vaxe", priority = 500 },
 
 	---- Testing ----
-	"yaocccc/nvim-foldsign",
 	"m4xshen/autoclose.nvim",
 	"vonheikemen/fine-cmdline.nvim",
 
