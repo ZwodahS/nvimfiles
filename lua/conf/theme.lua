@@ -58,6 +58,13 @@ M.setup = function ()
       HopNextKey1 = { fg = c.yellow, style = "bold" },
       HopNextKey2 = { fg = c.orange },
       HopUnmatched = { fg = c.dark2 },
+
+      InterestingWord1 = { fg = c.bg, bg = c.orange },
+      InterestingWord2 = { fg = c.bg, bg = c.blue },
+      InterestingWord3 = { fg = c.bg, bg = c.green },
+      InterestingWord4 = { fg = c.bg, bg = c.red1 },
+      InterestingWord5 = { fg = c.bg, bg = c.teal },
+      InterestingWord6 = { fg = c.bg, bg = c.magenta },
     }
     util.syntax(extensions);
 
@@ -103,6 +110,13 @@ M.setup = function ()
       HopNextKey1 = { fg = c.b.yellow, bold = true },
       HopNextKey2 = { fg = c.b.cyan },
       HopUnmatched = { fg = c.b.blue },
+
+      InterestingWord1 = { fg = c.a.bg, bg = blend(c.b.red, c.b.yellow, 0.5) },
+      InterestingWord2 = { fg = c.a.bg, bg = c.b.blue },
+      InterestingWord3 = { fg = c.a.bg, bg = c.b.green },
+      InterestingWord4 = { fg = c.a.bg, bg = c.b.red },
+      InterestingWord5 = { fg = c.a.bg, bg = c.b.cyan },
+      InterestingWord6 = { fg = c.a.bg, bg = c.b.magenta },
     }
 
     -- Enable these for Melange
