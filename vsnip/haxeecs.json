@@ -7,6 +7,7 @@
       "}"
     ]
   },
+
   "ClassMessage": {
     "prefix": ["classMessage"],
     "body": [
@@ -77,7 +78,7 @@
   "ClassComponent": {
     "prefix": ["classComponent"],
     "body": [
-      "package ${3:world.components};",
+      "package ${3:world.entities.components};",
       "",
       "typedef ${1:$TM_FILENAME_BASE}SF = {",
       "}",
@@ -109,9 +110,8 @@
       "",
       "class ${1:$TM_FILENAME_BASE} extends Entity {",
       "",
-      "\tpublic function new(id: Int, typeId: String, rules: Rules, conf: $1Conf) {",
-      "\t\tsuper(id, typeId);",
-      "\t\tthis.rules = rules;",
+      "\tpublic function new(id: Int, factory: $1Factory) {",
+      "\t\tsuper(id, factory);",
       "\t\tthis.kind = EntityKind.$1;",
       "\t}",
       "}"
@@ -121,10 +121,10 @@
   "ClassEntityFactory": {
     "prefix": ["classEntityFactory"],
     "body": [
-      "package world.factories;",
+      "package world.entities.factories;",
       "",
       "class ${1:$TM_FILENAME_BASE} extends EntityFactory {",
-      "\tpublic var conf: ${2:Entity}Conf;",
+      "\tpublic var conf: $2Conf;",
       "",
       "\tpublic function new(rules: Rules, conf: $2Conf) {",
       "\t\tsuper(conf.id, rules);",
@@ -133,8 +133,7 @@
       "",
       "\t// ---- Make / Save / Load ---- //",
       "\toverride public function make(id: Int, worldState: WorldState, conf: Dynamic = null): Entity {",
-      "\t\tfinal entity = new $2(id, this.typeId, this.rules, this.conf);",
-      "\t\tentity.factory = this;",
+      "\t\tfinal entity = new $2(id, this);",
       "\t\treturn entity;",
       "\t}",
       "}"
@@ -158,10 +157,8 @@
     "description": "Create a empty UIElement"
   },
 
-
-
   "ComponentVar": {
-    "prefix": ["publicvarcomponent"],
+    "prefix": ["varcomponent"],
     "body": [
       "public var ${1:component}(default, set): ${2:Component};",
       "",
@@ -193,7 +190,6 @@
       "}"
     ]
   },
-
 
   "DynamicTypeClassDefinition": {
     "prefix": ["classDynamicType"],
