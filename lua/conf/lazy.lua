@@ -4,8 +4,8 @@
 --]]
 require("lazy").setup({
 	---- Lua Common library ----
-  { "nvim-lua/plenary.nvim", priority = 1000 },
-  { "MunifTanjim/nui.nvim", priority = 1000 },
+	{ "nvim-lua/plenary.nvim", priority = 1000 },
+	{ "MunifTanjim/nui.nvim", priority = 1000 },
 	-- "nvim-lua/popup.nvim",
 
 	---- Plugin Manager ----
@@ -14,14 +14,15 @@ require("lazy").setup({
 	---- Themes && UI ----
 	-- Theme
 	{ "folke/tokyonight.nvim", branch = "main", priority = 999 },
-  { "savq/melange-nvim" },
+	{ "savq/melange-nvim" },
+	{ "sainnhe/everforest" },
 	-- Devicons
 	"kyazdani42/nvim-web-devicons",
 	"ZwodahS/nvim-colorizer.lua",
 
 	---- File Searching and Tree
 	-- file explorer
-  { "kyazdani42/nvim-tree.lua", commit = "36e29c3" },
+	{ "kyazdani42/nvim-tree.lua", commit = "36e29c3" },
 	-- Ctrlp
 	-- Note: Using Ctrlp as backup for cases where the repo is too big
 	"ctrlpvim/ctrlp.vim",
@@ -31,18 +32,18 @@ require("lazy").setup({
 	"xiyaowong/telescope-emoji.nvim",
 
 	---- Completion Engine ----
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "ZwodahS/cmp-nvim-tags",
-      { "hrsh7th/cmp-vsnip", commit = "1ae05c6" },
-    },
-    priority = 300,
-  },
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"ZwodahS/cmp-nvim-tags",
+			{ "hrsh7th/cmp-vsnip", commit = "1ae05c6" },
+		},
+		priority = 300,
+	},
 
 	"folke/trouble.nvim",
 
@@ -56,8 +57,8 @@ require("lazy").setup({
 	"preservim/tagbar",
 
 	---- Lsp ----
-  { "neovim/nvim-lspconfig", priority = 100 },
-  { "williamboman/nvim-lsp-installer", priority = 99},
+	{ "neovim/nvim-lspconfig", priority = 100 },
+	{ "williamboman/nvim-lsp-installer", priority = 99},
 
 	---- Vim Surround ----
 	"tpope/vim-surround", -- "https://github.com/tpope/vim-surround
@@ -99,20 +100,20 @@ require("lazy").setup({
 	---- Zoom ----
 	"nyngwang/NeoZoom.lua",
 
-  ---- Scrollbar ----
+	---- Scrollbar ----
 	"petertriho/nvim-scrollbar",
 
 	------- Language --------
 	---- Haxe ----
-  { "marcweber/vim-haxe-syntax", priority = 501 },
-  { "jdonaldson/vaxe", priority = 500 },
+	{ "marcweber/vim-haxe-syntax", priority = 501 },
+	{ "jdonaldson/vaxe", priority = 500 },
 
 	---- Testing ----
-  "yaocccc/nvim-foldsign",
-  "m4xshen/autoclose.nvim",
-  "vonheikemen/fine-cmdline.nvim",
+	"yaocccc/nvim-foldsign",
+	"m4xshen/autoclose.nvim",
+	"vonheikemen/fine-cmdline.nvim",
 
-  ---- autoclose
+	---- autoclose
 }, {
-  root = vim.fn.stdpath("config") .. "/plugins",
+	root = vim.fn.stdpath("config") .. "/plugins",
 });
