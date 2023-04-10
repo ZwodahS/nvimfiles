@@ -20,9 +20,9 @@ function blend(foreground, background, alpha)
 end
 
 ----- Colorscheme
--- Currently supports "melange" and "tokyonight"
+-- Currently supports "melange" | "everforest" | "tokyonight"
+-- Melange is "RED", everforest is "Green", tokyonight is "Blue"
 -- Note to self: remember to change alacritty and tmux theme
--- local colorscheme = "tokyonight"
 local colorscheme = "melange"
 local M = {}
 
