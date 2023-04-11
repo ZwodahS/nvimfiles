@@ -27,23 +27,35 @@ local colorscheme = "melange"
 local M = {}
 
 M.setup = function ()
+	vim.opt.termguicolors = true
+	vim.cmd.colorscheme(colorscheme)
 
-	--[[
-	-- Mon 13:25:23 03 Apr 2023
-	-- Tokyonight allow us to extend the color scheme, so we will just use it
-	-- To extends Melange, we will manually do it.
-	-- Honestly, we might want to put them together later
-	--
-	-- We should copy the tokyonight utility here
-	--]]
+	local extensions = {}
+
+	-- Post loading configuration
 	if colorscheme == "tokyonight" then
 		vim.g.tokyonight_style = "night"
 		vim.g.tokyonight_italic_functions = true
-		local c = require("tokyonight.colors").setup({})
-		local util = require("tokyonight.util")
 
-		-- additional colors
-		local extensions = {
+		M.colors = {
+			fg = c.fg,
+			bg = c.bg,
+			red = c.red1,
+			green = c.green1,
+			blue = c.blue,
+			status_color = {
+				bg = c.bg,
+				fg = c.blue,
+				white = c.fg,
+
+				errors = c.red,
+				warnings = c.yellow,
+				hints = c.green,
+
+			}
+		}
+		local c = require("tokyonight.colors").setup({})
+		extensions = {
 			ZDatetime = { fg = blend(c.comment, c.fg, 0.3), style = "bold"},
 			ZStop = { fg = "#FF0000" },
 			ZSpecialRed = { fg = c.red1 },
@@ -66,36 +78,14 @@ M.setup = function ()
 			InterestingWord5 = { fg = c.bg, bg = c.teal },
 			InterestingWord6 = { fg = c.bg, bg = c.magenta },
 		}
-		util.syntax(extensions);
 
-		M.colors = {
-			fg = c.fg,
-			bg = c.bg,
-			red = c.red1,
-			green = c.green1,
-			blue = c.blue,
-			status_color = {
-				bg = c.bg,
-				fg = c.blue,
-				white = c.fg,
-
-				errors = c.red,
-				warnings = c.yellow,
-				hints = c.green,
-
-			}
-		}
-	elseif colorscheme == "melange" then
-	end
-
-	vim.opt.termguicolors = true
-	vim.cmd.colorscheme(colorscheme)
-
-	-- Post loading configuration
-	if colorscheme == "tokyonight" then
 	elseif colorscheme == "melange" then
 		local c = require("melange.palettes.dark")
-		local melange_extensions = {
+		-- add orange :P
+		c.b.orange = blend(c.b.red, c.b.yellow, 0.5);
+		c.b.dark = blend(c.a.bg, c.a.fg, 0.5);
+
+		extensions = {
 			ZDatetime = { fg = blend(c.b.blue, c.a.com, 0.6) },
 			ZStop = { fg = "#FF0000" },
 			ZSpecialRed = { fg = c.b.red },
@@ -103,7 +93,7 @@ M.setup = function ()
 			ZCommentSpecial1 = { fg = blend(c.b.red, c.a.bg, .8) },
 			ZCommentSpecial2 = { fg = blend(c.b.green, c.a.bg, .8) },
 			CommentNearInvisible = { fg = blend(c.a.com, c.a.bg, .2) },
-			PMenu = { fg = c.a.fg },
+			PMenu = { fg = c.a.fg, bg = blend(c.a.bg, c.a.fg, .9) },
 			PMenuSel = { fg = c.a.fg, bg = c.b.red },
 
 			HopNextKey = { fg = c.b.green, bold = true },
@@ -111,23 +101,45 @@ M.setup = function ()
 			HopNextKey2 = { fg = c.b.cyan },
 			HopUnmatched = { fg = c.b.blue },
 
-			InterestingWord1 = { fg = c.a.bg, bg = blend(c.b.red, c.b.yellow, 0.5) },
+			InterestingWord1 = { fg = c.a.bg, bg = c.b.orange },
 			InterestingWord2 = { fg = c.a.bg, bg = c.b.blue },
 			InterestingWord3 = { fg = c.a.bg, bg = c.b.green },
 			InterestingWord4 = { fg = c.a.bg, bg = c.b.red },
 			InterestingWord5 = { fg = c.a.bg, bg = c.b.cyan },
 			InterestingWord6 = { fg = c.a.bg, bg = c.b.magenta },
+
+			-- Melange did not specify these, so we need to do it manually
+			-- Cmp - copied from Tokyonight. There are more so the rest should be added when needed
+			CmpItemKindDefault = { fg = c.a.dark },
+			CmpItemKindKeyword = { fg = c.b.cyan },
+
+			CmpItemKindVariable = { fg = c.b.magenta },
+			CmpItemKindConstant = { fg = c.b.magenta },
+			CmpItemKindReference = { fg = c.b.magenta },
+			CmpItemKindValue = { fg = c.b.magenta },
+
+			CmpItemKindFunction = { fg = c.b.blue },
+			CmpItemKindMethod = { fg = c.b.blue },
+			CmpItemKindConstructor = { fg = c.b.blue },
+
+			CmpItemKindClass = { fg = c.b.orange },
+			CmpItemKindInterface = { fg = c.b.orange },
+			CmpItemKindStruct = { fg = c.b.orange },
+			CmpItemKindEvent = { fg = c.b.orange },
+			CmpItemKindEnum = { fg = c.b.orange },
+			CmpItemKindUnit = { fg = c.b.orange },
+
+			CmpItemKindModule = { fg = c.b.yellow },
+
+			CmpItemKindProperty = { fg = c.b.green },
+			CmpItemKindField = { fg = c.b.green },
+			CmpItemKindTypeParameter = { fg = c.b.green },
+			CmpItemKindEnumMember = { fg = c.b.green },
+			CmpItemKindOperator = { fg = c.b.green },
+			CmpItemKindSnippet = { fg = c.b.dark },
 		}
 
 		-- Enable these for Melange
-		for name, attrs in pairs(melange_extensions) do
-			if type(attrs) == 'table' then
-				vim.api.nvim_set_hl(0, name, attrs)
-			elseif type(attrs) == 'string' then
-				vim.api.nvim_set_hl(0, name, { link = attrs })
-			end
-		end
-
 		M.colors = {
 			fg = c.a.fg,
 			bg = c.a.bg,
@@ -144,6 +156,14 @@ M.setup = function ()
 				hints = c.b.green,
 			}
 		}
+	end
+
+	for name, attrs in pairs(extensions) do
+		if type(attrs) == 'table' then
+			vim.api.nvim_set_hl(0, name, attrs)
+		elseif type(attrs) == 'string' then
+			vim.api.nvim_set_hl(0, name, { link = attrs })
+		end
 	end
 end
 
