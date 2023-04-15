@@ -105,7 +105,6 @@ require("lazy").setup({
 
 	------- Language --------
 	---- Haxe ----
-	{ "marcweber/vim-haxe-syntax", priority = 501 },
 	{ "jdonaldson/vaxe", priority = 500 },
 
 	---- Testing ----
