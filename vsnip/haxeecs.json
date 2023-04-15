@@ -19,6 +19,11 @@
       "\tpublic function new() {",
       "\t\tsuper(MessageType);",
       "\t}",
+      "",
+      "/**",
+      "\t# Dispatchers",
+      "\t# Listeners",
+      "**/",
       "}"
     ],
     "description": "Create a message class from template."
@@ -96,7 +101,7 @@
       "\t\treturn {};",
       "\t}",
       "\toverride public function loadStruct(context: SerialiseContext, option: SerialiseOption, conf: Dynamic): Component {",
-      "\t\tfinal sf: CropStateComponent = cast conf;",
+      "\t\tfinal sf: $1SF = cast conf;",
       "\t\treturn this;",
       "\t}",
       "}"
@@ -175,7 +180,6 @@
   "ListenMessage": {
     "prefix": ["mListen", "dispatcher.listen"],
     "body": [
-      "// @:listen $TM_FILENAME_BASE ${1:Message} ${2:0} $4",
       "${3:dispatcher}.listen($1.MessageType, (message: zf.Message) -> {",
       "\tfinal m: $1 = cast message;",
       "\thandle$1(m);",
