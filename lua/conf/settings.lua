@@ -3,8 +3,6 @@ local api = vim.api
 local vim_home = vim.fn.stdpath("config")
 vim.g.vim_home = vim_home
 vim.g.python3_host_prog = vim_home .. "/venv3/bin/python"
------- Color Column
-
 ------ Unbind stuffs
 m.nmap('Q', '<NOP>')
 m.nmap('<C-G>', '<NOP>')
@@ -27,6 +25,7 @@ vim.opt.colorcolumn = "119,120"
 vim.opt.showmode = false
 vim.opt.showtabline = 2
 vim.opt.equalalways = false
+vim.opt.pumheight=10 -- limit the number of items in popup menu
 ------ Windowing (the mappings are in settings.lua)
 vim.cmd("set splitbelow")
 vim.cmd("set splitright")
@@ -114,4 +113,3 @@ m.vmap('<C-x><C-x>', 'xa<<ESC>pa></<ESC>pa><ESC>');
 --
 -- Always keep the split resized equally, only applies to file via *.*
 vim.cmd("autocmd WinEnter *.* wincmd =")
-
