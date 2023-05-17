@@ -125,7 +125,12 @@
       "${3:public} var ${1:name}(default, null): ${2:type};"
     ]
   },
-
+  "constructorset": {
+    "prefix": ["set"],
+    "body": [
+      "this.${1:} = $1;"
+    ]
+  },
   "ifnotnull": {
     "prefix": ["ifnotnullset"],
     "body": [
