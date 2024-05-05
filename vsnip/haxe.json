@@ -79,6 +79,12 @@
       "${1} = $1 != ${3:null} ? $1 : ${2:defaultValue}"
     ]
   },
+  "Ternary AssignmentWithRightSide": {
+    "prefix": ["null:="],
+    "body": [
+      "$1 != ${2:null} ? $1 : "
+    ]
+  },
   "publicvar": {
     "prefix": ["var"],
     "body": [
@@ -90,7 +96,7 @@
     "body": [
       "${4:public} var ${1:name}(get, never): ${2:type};",
       "",
-      "public function get_$1(): $2 {",
+      "${5:inline} public function get_$1(): $2 {",
       "\treturn ${3:returnValue};",
       "}"
     ]
@@ -100,7 +106,7 @@
     "body": [
       "${4:public} var ${1:name}(get, set): ${2:type};",
       "",
-      "public function get_$1(): $2 {",
+      "${5:inline} function get_$1(): $2 {",
       "\treturn ${3:returnValue};",
       "}",
       "",

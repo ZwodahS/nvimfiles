@@ -10,7 +10,15 @@
   "text": {
     "prefix": "text",
     "body": [
-      "<text id=\"${1:id}\">$2</text>"
+      "<text id=\"${1:id}\">",
+      "\t<en>$2</en>",
+      "</text>"
+    ]
+  },
+  "en": {
+    "prefix": "en",
+    "body": [
+      "<en>$2</en>"
     ]
   },
   "tag": {

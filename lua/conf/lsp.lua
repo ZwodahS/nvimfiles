@@ -118,3 +118,4 @@ require("trouble").setup {
 }
 
 m.nmap('tr', ':TroubleToggle document_diagnostics<CR>')
+m.nmap('ts', ':TroubleToggle lsp_references<CR>')

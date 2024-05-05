@@ -16,19 +16,20 @@ require("lazy").setup({
 	{ "folke/tokyonight.nvim", branch = "main", priority = 999 },
 	{ "savq/melange-nvim", priority = 999 },
 	{ "sainnhe/everforest", priority = 999 },
-	-- Devicons
-	"kyazdani42/nvim-web-devicons",
 	"ZwodahS/nvim-colorizer.lua",
 
 	---- File Searching and Tree
 	-- file explorer
+	-- For some reason this constantly stop neovim from quitting properly.
+	"kyazdani42/nvim-web-devicons",
 	{ "kyazdani42/nvim-tree.lua", commit = "36e29c3" },
+
 	-- Ctrlp
 	-- Note: Using Ctrlp as backup for cases where the repo is too big
 	"ctrlpvim/ctrlp.vim",
 
 	---- Telescope ----
-	"nvim-telescope/telescope.nvim",
+	{"nvim-telescope/telescope.nvim", branch ="0.1.x" },
 	"xiyaowong/telescope-emoji.nvim",
 
 	---- Completion Engine ----

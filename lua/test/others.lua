@@ -4,7 +4,8 @@ require("scrollbar").setup()
 require('neo-zoom').setup({
   winopts = {
     offset = {
-      width = 120,
+      width = 180,
+			left = 0.3,
     }
   },
 })
