@@ -8,14 +8,22 @@
     ]
   },
 
+  "ClassEmpty": {
+    "prefix": ["classEmpty", "class"],
+    "body": [
+      "package ${1:world}",
+      "",
+      "class ${2:$TM_FILENAME_BASE} {",
+      "}"
+    ]
+  },
+
   "ClassMessage": {
     "prefix": ["classMessage"],
     "body": [
       "package ${1:world}.messages;",
       "",
-      "#if !macro",
-      "@:build(zf.macros.ObjectPool.addObjectPool())",
-      "#end",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
       "\tpublic static final MessageType = \"$2\";",
       "",
@@ -33,12 +41,49 @@
     ],
     "description": "Create a message class from template."
   },
+  "ClassMessage.prevnext": {
+    "prefix": ["classMessage.prevnext"],
+    "body": [
+      "package ${1:world}.messages;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
+      "\tpublic static final MessageType = \"$2\";",
+      "",
+      "\tpublic var prev: ${3:ObjType} = null;",
+      "\tpublic var next: $3 = null;",
+      "",
+      "\tfunction new() {",
+      "\t\tsuper(MessageType);",
+      "\t}",
+      "",
+      "\tpublic function reset() {",
+      "\t\tthis.prev = null;",
+      "\t\tthis.next = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(prev: $3, next: $3): ${2} {",
+      "\t\tfinal m = __alloc__();",
+      "",
+      "\t\tm.prev = prev;",
+      "\t\tm.next = next;",
+      "",
+      "\t\treturn m;",
+      "\t}",
+      "\toverride public function toString() {",
+      "\t\treturn '[m:\\${this.type} \\${this.prev}->\\${this.next}]';",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a message class from template."
+  },
 
   "ClassSystem": {
     "prefix": ["classSystem"],
     "body": [
       "package ${1:world}.systems;",
       "",
+      "#if !macro @:build(zf.macros.Messages.build()) #end",
       "class ${2:$TM_FILENAME_BASE} extends System {",
       "",
       "\tpublic function new() {",
@@ -47,12 +92,25 @@
       "",
       "\toverride public function init(world: zf.engine2.World) {",
       "\t\tsuper.init(world);",
+      "\t\tsetupMessages(world.dispatcher)",
       "\t}",
       "}"
     ],
     "description": "Create a system class from template."
   },
-  "Systems.functions": {
+  "system.update": {
+    "prefix": ["systems.update"],
+    "body": [
+      "/**",
+      "\tupdate loop",
+      "**/",
+      "override public function update(dt: Float) {",
+      "\tsuper.update(dt);",
+      "}",
+      ""
+    ]
+  },
+  "system.functions": {
     "prefix": ["systems.functions"],
     "body": [
       "override public function onEvent(event: hxd.Event): Bool {",
@@ -100,6 +158,7 @@
       "typedef ${1:$TM_FILENAME_BASE}SF = {",
       "}",
       "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class $1 implements Serialisable {",
       "",
       "\t/**",
@@ -119,6 +178,18 @@
       "\t\tfinal sf: $1SF = data;",
       "\t\treturn this;",
       "\t}",
+      "",
+	    "\t// ---- Object pooling Methods ----",
+      "",
+      "\tpublic function reset() {",
+      "\t}",
+      "",
+      "\tpublic static function alloc(): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "",
       "}"
     ]
   },
@@ -130,6 +201,7 @@
       "typedef ${1:$TM_FILENAME_BASE}SF = {",
       "}",
       "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class $1 extends Component implements Serialisable {",
       "\tpublic static final ComponentType = \"$1\";",
       "",
@@ -137,10 +209,12 @@
       "\t\treturn ComponentType;",
       "\t}",
       "",
-      "\tpublic var factory: ${2:Entity}Factory;",
+      "\tpublic var factory(default, set): ${2:Entity}Factory;",
       "",
-      "\tpublic function new(factory: $2Factory) {",
-      "\t\tthis.factory = factory;",
+      "\tpublic function set_factory(v: $2Factory): $2Factory {",
+      "\t\tthis.factory = v;",
+      "\t\tonFactorySet();",
+      "\t\treturn this.factory;",
       "\t}",
       "",
       "\tpublic var ${3:entity}(get, never): $2;",
@@ -148,6 +222,15 @@
       "\tinline public function get_$3(): $2 {",
       "\t\treturn cast this.entity;",
       "\t}",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\t/**",
+      "\t\tInitialise the state component for the specific card typeId, if any",
+      "\t**/",
+      "\tfunction onFactorySet() {}",
+      "",
+      "\t// ---- Save / Load ----",
       "",
       "\tpublic function toStruct(context: SerialiseContext): Dynamic {",
       "\t\treturn {};",
@@ -157,6 +240,26 @@
       "\t\tfinal sf: $1SF = cast conf;",
       "\t\treturn this;",
       "\t}",
+      "",
+	    "\t// ---- Object pooling Methods ----",
+      "",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t\t__dispose__();",
+      "\t}",
+      "",
+      "\tpublic function reset() {",
+      "\t\tthis.factory = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(factory: $2Factory): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.factory = factory;",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "",
       "}"
     ],
     "description": "Create a component class from template"
@@ -166,6 +269,7 @@
     "body": [
       "package ${4:world}.rules.entities.components;",
       "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Component {",
       "\tpublic static final ComponentType = \"$1\";",
       "",
@@ -173,7 +277,13 @@
       "\t\treturn ComponentType;",
       "\t}",
       "",
-      "\tpublic var factory: ${2:Entity}Factory;",
+      "\tpublic var factory(default, set): ${2:Entity}Factory;",
+      "",
+      "\tpublic function set_factory(v: $2Factory): $2Factory {",
+      "\t\tthis.factory = v;",
+      "\t\tonFactorySet();",
+      "\t\treturn this.factory;",
+      "\t}",
       "",
       "\tpublic var ${3:entity}(get, never): $2;",
       "",
@@ -181,10 +291,28 @@
       "\t\treturn cast this.entity;",
       "\t}",
       "",
-      "\tpublic function new(factory: $2Factory) {",
-      "\t\tthis.factory = factory;",
+      "\tfunction new() {}",
+      "",
+      "\tfunction onFactorySet() {}",
+      "",
+	    "\t// ---- Object pooling Methods ----",
+      "",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t\t__dispose__();",
       "\t}",
       "",
+      "\tpublic function reset() {",
+      "\t\tthis.factory = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(factory: $2Factory): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.factory = factory;",
+      "",
+      "\t\treturn object;",
+      "\t}",
       "}"
     ],
     "description": "Create a component class from template"
@@ -205,18 +333,20 @@
     "body": [
       "package ${2:world}.rules.entities;",
       "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Entity {",
       "",
-      "\tvar _proxy: ${1:$TM_FILENAME_BASE}Proxy;",
+      "\tvar _proxy: ${1:$TM_FILENAME_BASE}Proxy = null;",
       "",
       "\tpublic var proxy(get, never): $1Proxy;",
       "",
       "\tpublic function get_proxy(): $1Proxy {",
-      "\t\tif (this._proxy == null) this._proxy = new $1Proxy(this.world, this);",
+      "\t\tif (this._proxy != null || this.world == null) return this._proxy;",
+      "\t\tthis._proxy = $1Proxy.alloc(this.world, this);",
       "\t\treturn this._proxy;",
       "\t}",
       "",
-      "\tpublic var logic(default, set): $1LogicComponent;",
+      "\tpublic var logic(default, set): $1LogicComponent = null;",
       "",
       "\tpublic function set_logic(component: $1LogicComponent): $1LogicComponent {",
       "\t\tfinal prev = this.logic;",
@@ -225,7 +355,7 @@
       "\t\treturn this.logic;",
       "\t}",
       "",
-      "\tpublic var render(default, set): $1RenderComponent;",
+      "\tpublic var render(default, set): $1RenderComponent = null;",
       "",
       "\tpublic function set_render(component: $1RenderComponent): $1RenderComponent {",
       "\t\tfinal prev = this.render;",
@@ -234,7 +364,7 @@
       "\t\treturn this.render;",
       "\t}",
       "",
-      "\tpublic var state(default, set): $1StateComponent;",
+      "\tpublic var state(default, set): $1StateComponent = null;",
       "",
       "\tpublic function set_state(component: $1StateComponent): $1StateComponent {",
       "\t\tfinal prev = this.state;",
@@ -243,12 +373,38 @@
       "\t\treturn this.state;",
       "\t}",
       "",
-      "\tpublic function new(id: Int, factory: $1Factory) {",
-      "\t\tsuper(id, factory);",
-      "\t\tthis.kind = EntityKind.$1;",
-      "\t\tthis.logic = new $1LogicComponent(factory);",
-      "\t\tthis.render = new $1RenderComponent(factory);",
-      "\t\tthis.state = new $1StateComponent(factory);",
+      "\tpublic function new() {",
+      "\t\tsuper();",
+      "\t}",
+      "",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t\t__dispose__();",
+      "\t}",
+      "",
+      "\tpublic function reset() {",
+      "\t\tif (this._proxy != null) {",
+      "\t\t\tthis._proxy.dispose();",
+      "\t\t\tthis._proxy = null;",
+      "\t\t}",
+      "\t\tthis.logic = null;",
+      "\t\tthis.render = null;",
+      "\t\tthis.state = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(id: Int, factory: $1Factory): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.kind = EntityKind.$1;",
+      "\t\tobject.factory = factory;",
+      "\t\tobject.id = id;",
+      "\t\tobject.typeId = typeId;",
+      "",
+      "\t\tobject.logic = $1LogicComponent.alloc(factory);",
+      "\t\tobject.render = $1RenderComponent.alloc(factory);",
+      "\t\tobject.state = $1StateComponent.alloc(factory);",
+      "",
+      "\t\treturn object;",
       "\t}",
       "}"
     ],
@@ -268,8 +424,8 @@
       "\t}",
       "",
       "\t// ---- Make / Save / Load ---- //",
-      "\toverride public function make(id: Int, worldState: WorldState, conf: Dynamic = null): Entity {",
-      "\t\tfinal entity = new $2(id, this);",
+      "\toverride public function make(id: Int, worldState: WorldState, conf: Dynamic = null): $2 {",
+      "\t\tfinal entity = $2.alloc(id, this);",
       "\t\treturn entity;",
       "\t}",
       "}"
@@ -293,12 +449,28 @@
     "body": [
       "package ${4:world}.rules.proxies;",
       "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "",
       "class ${1:$TM_FILENAME_BASE} extends Proxy {",
+      "",
       "\tvar ${3:object}: ${2:Object};",
       "",
-      "\tpublic function new(world: World, $3: $2) {",
-      "\t\tsuper(world);",
-      "\t\tthis.$3 = $3;",
+      "\tfunction new() {",
+      "\t\tsuper();",
+      "\t}",
+      "",
+      "\toverride public function reset() {",
+      "\t\tsuper.reset();",
+      "\t\tthis.$3 = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(world: World, $3: $2): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.world = world;",
+      "\t\tobject.$3 = $3;",
+      "",
+      "\t\treturn object;",
       "\t}",
       "}"
     ]
@@ -306,6 +478,7 @@
   "ClassUIElement": {
     "prefix": ["classUIElement"],
     "body": [
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends UIElement {",
       "",
       "\tpublic var display: h2d.Object;",
@@ -313,8 +486,11 @@
       "\tpublic function new() {",
       "\t\tsuper();",
       "",
+      "\t\tinitCommon();",
+      "\t}",
+      "",
+      "\tfunction initCommon() {",
       "\t\tthis.addChild(this.display = new h2d.Object());",
-      "\t\trender();",
       "\t}",
       "",
       "\t/**",
@@ -322,6 +498,7 @@
       "\t**/",
       "\toverride public function reset() {",
       "\t\tsuper.reset();",
+      "\t\t// reset only the non-common object to make object pooling better",
       "\t}",
       "",
       "\t/**",
@@ -337,6 +514,14 @@
       "\t\trefresh can be called multiple times to update the state",
       "\t**/",
       "\tpublic function refresh() {}",
+      "",
+      "\tpublic static function alloc(): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.render();",
+      "",
+      "\t\treturn object;",
+      "\t}",
       "}"
     ],
     "description": "Create a empty UIElement"
@@ -346,17 +531,15 @@
     "body": [
       "package ${2:world}.rules.contexts;",
       "",
-      "#if !macro",
-      "@:build(zf.macros.ObjectPool.addObjectPool())",
-      "#end",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Context {",
       "",
       "\tfunction new() {",
-      "\t\tsuper(null);",
+      "\t\tsuper();",
       "\t}",
       "",
-      "\tpublic function reset() {",
-      "\t\tthis.world = null",
+      "\toverride public function reset() {",
+      "\t\tsuper.reset();",
       "\t}",
       "",
       "\tpublic static function alloc(world: World): $1 {",
@@ -411,6 +594,10 @@
       "\t\tthis.world = world;",
       "\t}",
       "",
+      "\tpublic function reset() {",
+      "\t\tthis.world = null",
+      "\t}",
+      "",
       "\toverride public function copy(): $1 {",
       "\t\tfinal state = new $1(this.world, this.name);",
       "\t\treturn state;",
@@ -425,43 +612,61 @@
   "ClassChildState": {
     "prefix": ["classChildState"],
     "body": [
-      "private class ${1:State} extends $TM_FILENAME_BASE {",
-      "\tpublic function new(world: World) {",
-      "\t\tsuper(world, $TM_FILENAME_BASE.$1);",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "private class ${1:Name}State extends $TM_FILENAME_BASE {",
+      "",
+      "\tfunction new() {",
+      "\t\tsuper($TM_FILENAME_BASE.$1);",
       "\t}",
       "",
-      "\toverride public function copy(): $TM_FILENAME_BASE {",
-      "\t\treturn new $1(this.world);",
+      "\toverride public function copy(): $1 {",
+      "\t\treturn $1.alloc(this.world);",
+      "\t}",
+      "",
+      "\toverride public function reset() {",
+      "\t\tsuper.reset();",
+      "\t}",
+      "",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t\t__dispose__();",
+      "\t}",
+      "",
+      "\tpublic static function alloc(world: World): $1State {",
+      "\t\tfinal state = $1State.__alloc__();",
+      "",
+      "\t\tstate.world = world;",
+      "",
+      "\t\treturn state;",
       "\t}",
       "}"
     ]
   },
-  "State.functions": {
-    "prefix": ["state.functions"],
+  "state.update": {
+    "prefix": ["state.update"],
     "body": [
-      "override public function update(dt: Float) {}",
+      "override public function update(dt: Float) {",
+      "\t$0",
+      "}"
+    ]
+  },
+  "state.getNextState": {
+    "prefix": ["state.getNextState"],
+    "body": [
       "override public function getNextState(): zf.sm.State {",
+      "\t$0",
       "\treturn null;",
-      "}",
+      "}"
+    ]
+  },
+  "state.onStateEnterExit": {
+    "prefix": ["state.onStateEnterExit"],
+    "body": [
       "override public function onStateEnter() {}",
       "override public function onStateExit() {}"
     ]
   },
 
-  "varcomponent": {
-    "prefix": ["varcomponent"],
-    "body": [
-      "public var ${1:component}(default, set): ${2:Component};",
-      "",
-      "public function set_$1(component: $2): $2 {",
-      "\tfinal prev = this.$1;",
-      "\tthis.$1 = component;",
-      "\tonComponentChanged(prev, this.$1);",
-      "\treturn this.$1;",
-      "}"
-    ],
-    "description": "engine2 component variable"
-  },
   "varsingleton": {
     "prefix": ["varsingleton"],
     "body": [
@@ -474,21 +679,8 @@
       "}"
     ]
   },
-  "varproxy": {
-    "prefix": ["varproxy"],
-    "body": [
-      "var _proxy: ${1:$TM_FILENAME_BASE}Proxy;",
-      "",
-      "public var proxy(get, never): $1Proxy;",
-      "",
-      "public function get_proxy(): $1Proxy {",
-      "\tif (this._proxy == null) this._proxy = new $1Proxy(this.world, this);",
-      "\treturn this._proxy;",
-      "}"
-    ]
-  },
 
-  "dispatcher.listen": {
+  "dispatcher.listen.old": {
     "prefix": ["mListen", "dispatcher.listen"],
     "body": [
       "${3:dispatcher}.listen($1.MessageType, (message: zf.Message) -> {",
@@ -497,13 +689,24 @@
     ],
     "description": ""
   },
-  "ListenMessageFunction": {
-    "prefix": ["mHandle", "handleFunc"],
+  "messagesHandle.old": {
+    "prefix": ["mHandle.old"],
     "body": [
       "function handle${1:Message}(m: $1) {",
+      "\t//note: message will be dispose once this function exits.",
       "}"
     ]
   },
+  "messagsHandle": {
+    "prefix": ["handleMessage", "mHandle"],
+    "body": [
+      "@handleMessage(\"${1:Message}\", ${2:0})",
+      "function m${3:handleMessage}(m: $1) {",
+      "\t${4://note: message will be dispose once this function exits.}",
+      "}"
+    ]
+  },
+
   "DispatcherDispatch": {
     "prefix": ["dispatch"],
     "body": [
@@ -517,6 +720,13 @@
       "m.dispose();"
     ]
   },
+  "messagesMacro": {
+    "prefix": ["messages.macro"],
+    "body": [
+      "#if !macro @:build(zf.macros.Messages.build()) #end"
+    ]
+  },
+
 
 
 
@@ -818,9 +1028,7 @@
   "objectPoolmacro": {
     "prefix": ["objectPool.macro"],
     "body": [
-      "#if !macro",
-      "@:build(zf.macros.ObjectPool.addObjectPool())",
-      "#end"
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end"
     ]
   },
   "objectPoolalloc": {
@@ -845,6 +1053,7 @@
   "XmlComponent": {
     "prefix": ["classXmlComponent"],
     "body": [
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends zf.ui.builder.XmlComponent {",
       "",
       "\tpublic function new() {",
@@ -866,10 +1075,24 @@
       "\t\trefresh can be called multiple times to update the state",
       "\t**/",
       "\tpublic function refresh() {}",
+      "",
+      "\t/**",
+      "\t\tRender the UIElement.",
+      "",
+      "\t\trender is only called once during uielement construction.",
+      "\t**/",
+      "\tfunction render() {}",
+      "",
+      "\tpublic static function alloc(): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.render();",
+      "",
+      "\t\treturn object;",
+      "\t}",
       "}"
     ]
   },
-
 
   "init": {
     "prefix": ["init"],

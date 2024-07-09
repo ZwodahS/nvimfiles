@@ -22,19 +22,26 @@
     "description": "Add no lint formatter comment"
   },
   "Function": {
-    "prefix": ["function"],
+    "prefix": ["fn"],
     "body": [
-      "/**",
-      "${5}",
-      "**/",
       "${4}function ${1:fN} ($2): ${3} {",
       "}"
     ]
   },
-  "Public function": {
-    "prefix": ["pfunc", "pfunct", "pfuncti", "pfunction"],
+  "Public Function": {
+    "prefix": ["pfn"],
     "body": [
-      "public function ${1:fN}($2): ${3} {"
+      "public function ${1:fN}($2): ${3} {",
+      "}"
+    ]
+  },
+  "Override Public Function": {
+    "prefix": ["opfn"],
+    "body": [
+      "override public function ${1:fN}($2): ${3} {",
+      "\tsuper.$1();",
+      "\t$0",
+      "}"
     ]
   },
   "Breakpoint": {
