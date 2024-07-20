@@ -150,6 +150,12 @@
       "if (${1:target} != null) ${2:prop} = $1;"
     ]
   },
+  "guard": {
+    "prefix": ["guard"],
+    "body": [
+      "if (${1:object} == ${2:null}) return$0;"
+    ]
+  },
 
   "objectIdAbstract": {
     "prefix": ["either"],

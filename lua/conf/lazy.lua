@@ -22,7 +22,7 @@ require("lazy").setup({
 	-- file explorer
 	-- For some reason this constantly stop neovim from quitting properly.
 	"kyazdani42/nvim-web-devicons",
-	{ "kyazdani42/nvim-tree.lua", commit = "36e29c3" },
+	{ "kyazdani42/nvim-tree.lua", commit = "347e1eb" },
 
 	-- Ctrlp
 	-- Note: Using Ctrlp as backup for cases where the repo is too big
