@@ -31,15 +31,13 @@
       "\t\tsuper(MessageType);",
       "\t}",
       "",
-      "\tpublic function reset() {}",
-      "",
       "\tpublic static function alloc(): ${2} {",
       "\t\tfinal m = __alloc__();",
       "\t\treturn m;",
       "\t}",
       "}"
     ],
-    "description": "Create a message class from template."
+    "description": "Snippet for empty message class."
   },
   "ClassMessage.prevnext": {
     "prefix": ["classMessage.prevnext"],
@@ -50,16 +48,11 @@
       "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
       "\tpublic static final MessageType = \"$2\";",
       "",
-      "\tpublic var prev: ${3:ObjType} = null;",
-      "\tpublic var next: $3 = null;",
+      "\t@dispose(\"set\") public var prev: ${3:ObjType} = null;",
+      "\t@dispose(\"set\") public var next: $3 = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper(MessageType);",
-      "\t}",
-      "",
-      "\tpublic function reset() {",
-      "\t\tthis.prev = null;",
-      "\t\tthis.next = null;",
       "\t}",
       "",
       "\tpublic static function alloc(prev: $3, next: $3): ${2} {",
@@ -75,7 +68,7 @@
       "\t}",
       "}"
     ],
-    "description": "Create a message class from template."
+    "description": "Snippet for message class with a prev and next fields."
   },
 
   "ClassSystem": {
@@ -96,7 +89,7 @@
       "\t}",
       "}"
     ],
-    "description": "Create a system class from template."
+    "description": "Snippet for empty System class"
   },
   "system.update": {
     "prefix": ["systems.update"],
@@ -108,10 +101,12 @@
       "\tsuper.update(dt);",
       "}",
       ""
-    ]
+    ],
+    "description": "Snippet for the update function for System class"
   },
   "system.functions": {
     "prefix": ["systems.functions"],
+    "description": "Snippet for all the functions for system class",
     "body": [
       "override public function onEvent(event: hxd.Event): Bool {",
       "\treturn false;",
@@ -152,6 +147,13 @@
 
   "ClassDataContainer": {
     "prefix": ["classDataContainer"],
+    "description": [
+      "Snippet for [DataContainer] object.\n",
+      "\n",
+      "[DataContainer] has the following characteristic.\n",
+      "- Does not have a id.\n",
+      "- Cannot exists outside of the parent container.\n"
+    ],
     "body": [
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "#if !macro @:build(zf.macros.Serialise.build()) #end",
@@ -160,7 +162,7 @@
       "",
       "\tfunction new() {}",
       "",
-	    "\t// ---- Object pooling Methods ----",
+      "\t// ---- Object pooling Methods ----",
       "",
       "\tpublic function reset() {",
       "\t}",
@@ -176,123 +178,6 @@
       "\t}",
       "}"
     ]
-  },
-  "ClassComponent": {
-    "prefix": ["classStateComponent"],
-    "body": [
-      "package ${4:world}.rules.entities.components;",
-      "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
-      "#if !macro @:build(zf.macros.Serialise.build()) #end",
-      "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
-      "class ${1:$TM_FILENAME_BASE} extends Component implements Serialisable implements EntityContainer {",
-      "\tpublic static final ComponentType = \"$1\";",
-      "",
-      "\toverride public function get_typeId(): String {",
-      "\t\treturn ComponentType;",
-      "\t}",
-      "",
-      "\tpublic var factory(default, set): ${2:Entity}Factory;",
-      "",
-      "\tpublic function set_factory(v: $2Factory): $2Factory {",
-      "\t\tthis.factory = v;",
-      "\t\tonFactorySet();",
-      "\t\treturn this.factory;",
-      "\t}",
-      "",
-      "\tpublic var ${3:entity}(get, never): $2;",
-      "",
-      "\tinline public function get_$3(): $2 {",
-      "\t\treturn cast this.entity;",
-      "\t}",
-      "",
-      "\tfunction new() {}",
-      "",
-      "\t/**",
-      "\t\tInitialise the state component for the specific card typeId, if any",
-      "\t**/",
-      "\tfunction onFactorySet() {}",
-      "",
-	    "\t// ---- Object pooling Methods ----",
-      "",
-      "\toverride public function dispose() {",
-      "\t\tsuper.dispose();",
-      "\t\t__dispose__();",
-      "\t}",
-      "",
-      "\tpublic function reset() {",
-      "\t\tthis.factory = null;",
-      "\t}",
-      "",
-      "\tpublic static function alloc(factory: $2Factory): $1 {",
-      "\t\tfinal object = $1.__alloc__();",
-      "",
-      "\t\tobject.factory = factory;",
-      "",
-      "\t\treturn object;",
-      "\t}",
-      "",
-      "\t// This is rarely called since entity always creates these component.",
-      "\tpublic static function empty(): $1 {",
-      "\t\treturn alloc(null);",
-      "\t}",
-      "",
-      "}"
-    ],
-    "description": "Create a component class from template"
-  },
-  "ClassComponentNoSerialise": {
-    "prefix": ["classComponent", "classLogicComponent", "classRenderComponent"],
-    "body": [
-      "package ${4:world}.rules.entities.components;",
-      "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
-      "class ${1:$TM_FILENAME_BASE} extends Component {",
-      "\tpublic static final ComponentType = \"$1\";",
-      "",
-      "\toverride public function get_typeId(): String {",
-      "\t\treturn ComponentType;",
-      "\t}",
-      "",
-      "\tpublic var factory(default, set): ${2:Entity}Factory;",
-      "",
-      "\tpublic function set_factory(v: $2Factory): $2Factory {",
-      "\t\tthis.factory = v;",
-      "\t\tonFactorySet();",
-      "\t\treturn this.factory;",
-      "\t}",
-      "",
-      "\tpublic var ${3:entity}(get, never): $2;",
-      "",
-      "\tinline public function get_$3(): $2 {",
-      "\t\treturn cast this.entity;",
-      "\t}",
-      "",
-      "\tfunction new() {}",
-      "",
-      "\tfunction onFactorySet() {}",
-      "",
-	    "\t// ---- Object pooling Methods ----",
-      "",
-      "\toverride public function dispose() {",
-      "\t\tsuper.dispose();",
-      "\t\t__dispose__();",
-      "\t}",
-      "",
-      "\tpublic function reset() {",
-      "\t\tthis.factory = null;",
-      "\t}",
-      "",
-      "\tpublic static function alloc(factory: $2Factory): $1 {",
-      "\t\tfinal object = $1.__alloc__();",
-      "",
-      "\t\tobject.factory = factory;",
-      "",
-      "\t\treturn object;",
-      "\t}",
-      "}"
-    ],
-    "description": "Create a component class from template"
   },
 
   "ClassEntity": {
@@ -365,7 +250,6 @@
       "\t\tobject.kind = EntityKind.$1;",
       "\t\tobject.factory = factory;",
       "\t\tobject.id = id;",
-      "\t\tobject.typeId = factory.typeId;",
       "",
       "\t\tobject.logic = $1LogicComponent.alloc(factory);",
       "\t\tobject.render = $1RenderComponent.alloc(factory);",
@@ -380,7 +264,7 @@
   "ClassEntityFactory": {
     "prefix": ["classEntityFactory"],
     "body": [
-      "package ${3:world}.rules.entities.factories;",
+      "package ${3:world}.rules.factories;",
       "",
       "class ${1:$TM_FILENAME_BASE} extends EntityFactory {",
       "\tpublic var conf: ${2:E}Conf;",
@@ -400,7 +284,7 @@
     "description": "Create a engine2.EntityFactory from template"
   },
   "ClassEntityConf": {
-    "prefix": ["classEntityConf"],
+    "prefix": ["classConf"],
     "body": [
       "package ${2:world}.rules.confs;",
       "",
@@ -412,23 +296,17 @@
     ]
   },
   "ClassEntityProxy": {
-    "prefix": ["classEntityProxy"],
+    "prefix": ["classProxy"],
     "body": [
       "package ${4:world}.rules.proxies;",
       "",
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
-      "",
       "class ${1:$TM_FILENAME_BASE} extends Proxy {",
       "",
-      "\tvar ${3:object}: ${2:Object};",
+      "\t@dispose var ${3:object}: ${2:Object} = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper();",
-      "\t}",
-      "",
-      "\toverride public function reset() {",
-      "\t\tsuper.reset();",
-      "\t\tthis.$3 = null;",
       "\t}",
       "",
       "\tpublic static function alloc(world: World, $3: $2): $1 {",
@@ -442,6 +320,115 @@
       "}"
     ]
   },
+
+  "ClassComponent": {
+    "prefix": ["classStateComponent"],
+    "body": [
+      "package ${4:world}.rules.entities.components;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.Serialise.build()) #end",
+      "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
+      "class ${1:$TM_FILENAME_BASE} extends Component implements Serialisable implements EntityContainer {",
+      "\tpublic static final ComponentType = \"$1\";",
+      "",
+      "\toverride public function get_typeId(): String {",
+      "\t\treturn ComponentType;",
+      "\t}",
+      "",
+      "\t@dispose public var factory(default, set): ${2:Entity}Factory = null;",
+      "",
+      "\tpublic function set_factory(v: $2Factory): $2Factory {",
+      "\t\tthis.factory = v;",
+      "\t\tonFactorySet();",
+      "\t\treturn this.factory;",
+      "\t}",
+      "",
+      "\tpublic var ${3:entity}(get, never): $2;",
+      "",
+      "\tinline public function get_$3(): $2 {",
+      "\t\treturn cast this.entity;",
+      "\t}",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\t/**",
+      "\t\tInitialise the state component for the specific card typeId, if any",
+      "\t**/",
+      "\tfunction onFactorySet() {}",
+      "",
+      "\t// ---- Object pooling Methods ----",
+      "\tpublic static function alloc(factory: $2Factory): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.factory = factory;",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "",
+      "\t// This is rarely called since entity always creates these component.",
+      "\tpublic static function empty(): $1 {",
+      "\t\treturn alloc(null);",
+      "\t}",
+      "",
+      "}"
+    ],
+    "description": "Create a component class from template"
+  },
+  "ClassComponentNoSerialise": {
+    "prefix": ["classComponent", "classLogicComponent", "classRenderComponent"],
+    "body": [
+      "package ${4:world}.rules.entities.components;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "class ${1:$TM_FILENAME_BASE} extends Component {",
+      "\tpublic static final ComponentType = \"$1\";",
+      "",
+      "\toverride public function get_typeId(): String {",
+      "\t\treturn ComponentType;",
+      "\t}",
+      "",
+      "\tpublic var factory(default, set): ${2:Entity}Factory;",
+      "",
+      "\tpublic function set_factory(v: $2Factory): $2Factory {",
+      "\t\tthis.factory = v;",
+      "\t\tonFactorySet();",
+      "\t\treturn this.factory;",
+      "\t}",
+      "",
+      "\tpublic var ${3:entity}(get, never): $2;",
+      "",
+      "\tinline public function get_$3(): $2 {",
+      "\t\treturn cast this.entity;",
+      "\t}",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\tfunction onFactorySet() {}",
+      "",
+      "\t// ---- Object pooling Methods ----",
+      "",
+      "\toverride public function dispose() {",
+      "\t\tsuper.dispose();",
+      "\t\t__dispose__();",
+      "\t}",
+      "",
+      "\tpublic function reset() {",
+      "\t\tthis.factory = null;",
+      "\t}",
+      "",
+      "\tpublic static function alloc(factory: $2Factory): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.factory = factory;",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a component class from template"
+  },
+
   "ClassContext": {
     "prefix": ["classContext"],
     "body": [
@@ -450,15 +437,10 @@
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Context {",
       "",
-      "\tvar ${4:object}: ${3:Object} = null;",
+      "\t@dispose var ${4:object}: ${3:Object} = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper();",
-      "\t}",
-      "",
-      "\toverride public function reset() {",
-      "\t\tsuper.reset();",
-      "\t\tthis.$4 = null;",
       "\t}",
       "",
       "\tpublic static function alloc(world: World, $4: $3): $1 {",
@@ -500,7 +482,7 @@
   "varComponent": {
     "prefix": ["varcomponent"],
     "body": [
-      "public var ${1:component}(default, set): ${2:Component} = null;",
+      "@dispose public var ${1:component}(default, set): ${2:Component};",
       "",
       "public function set_$1(component: $2): $2 {",
       "\tfinal prev = this.$1;",
@@ -510,6 +492,7 @@
       "}"
     ]
   },
+
   "collectEntities": {
     "prefix": ["collectEntities"],
     "body": [
@@ -524,8 +507,94 @@
     ]
   },
   "collectEntities.@collectEntity": {
-    "prefix": ["@collectEntity"],
+    "description": [
+      "Collect all entities under this field.\n",
+      "If field is an entity, or an array of entities, they will be collected.\n",
+      "If field is an EntityContainer, than it will call the collectEntities method.\n"
+    ],
+    "prefix": ["@collectEntity", "@ce"],
     "body": ["@collectEntity "]
+  },
+
+  "ClassLogicObject": {
+    "prefix": ["classLogicObject"],
+    "description": [
+      "Create a dynamic rule\n",
+      "Dynamic Rules are rules that has a state.\n",
+      "\n",
+      "Related Snippet\n",
+      "- classLogicObjectFactory\n",
+      "- classProxy\n",
+      "- classContext\n",
+      "- classConf\n",
+      "- rules.loadLogicObjectn\n",
+      "\n"
+    ],
+    "body": [
+      "package ${2:world}.rules;",
+      "",
+      "#if !macro @:build(zf.macros.ClassBuilder.build()) #end",
+      "#if !macro @:build(zf.macros.Serialise.build()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
+      "class ${1:$TM_FILENAME_BASE} implements Serialisable {",
+      "",
+      "\t@dispose var factory: $1Factory = null;",
+      "",
+      "\t@forward @dispose var conf: $1Conf = null;",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\tpublic static function empty() {",
+      "\t\treturn alloc(null);",
+      "\t}",
+      "",
+      "\tpublic static function alloc(factory: $1Factory): CardAbility {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\tobject.factory = factory;",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "",
+      "\tpublic function loadStruct(context: SerialiseContext, data: Dynamic): CardAbility {",
+      "\t\tfinal rules: Rules = cast context.get(\"Rules\");",
+      "\t\tfinal id: String = data.id;",
+      "\t\tfinal factory: $1Factory = rules.${3:dynamicRules}.get(id);",
+      "",
+      "\t\tthis.factory = factory;",
+      "",
+      "\t\t__loadStruct__(context, data);",
+      "",
+      "\t\treturn this;",
+      "\t}",
+      "}"
+    ]
+  },
+  "ClassLogicObjectFactory": {
+    "prefix": ["classLogicObjectFactory"],
+    "description": [
+    ],
+    "body": [
+      "package ${3:world}.rules.factories;",
+      "",
+      "#if !macro @:build(zf.macros.ClassBuilder.build()) #end",
+      "class ${1:$TM_FILENAME_BASE} {",
+      "",
+      "\tpublic var conf: ${2:Rule}Conf;",
+      "",
+      "\tpublic var rules: Rules;",
+      "",
+      "\tpublic function new(rules: Rules, conf: $2Conf) {",
+      "\t\tthis.rules = rules;",
+      "\t\tthis.conf = conf;",
+      "\t}",
+      "",
+      "\tpublic function make(conf: Dynamic): CardAbility {",
+      "\t\tfinal rule =  $2.alloc(this);",
+      "\t\treturn rule;",
+      "\t}",
+      "}"
+    ]
   },
 
   "ClassState": {
@@ -667,7 +736,7 @@
     "prefix": ["classUIElement"],
     "body": [
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
-      "class ${1:$TM_FILENAME_BASE} extends UIElement {",
+      "class ${1:$TM_FILENAME_BASE} extends UIElement implements Disposable {",
       "",
       "\tpublic var display: h2d.Object;",
       "",
@@ -749,7 +818,43 @@
     ],
     "description": "Create a empty UIElement"
   },
-
+  "ClassUIElementScreen": {
+    "prefix": ["classUIElement.screen"],
+    "body": [
+      "package ${1:world}.ui;",
+      "",
+      "#if !macro @:build(zf.macros.Messages.build()) #end",
+      "class $TM_FILENAME_BASE extends UIElement {",
+      "",
+      "\tpublic var display: h2d.Object;",
+      "",
+      "\tpublic var world: World;",
+      "",
+      "\tpublic var dispatcher(default, null): MessageListenersGroup;",
+      "",
+      "\tpublic function new() {",
+      "\t\tsuper();",
+      "\t\tthis.addChild(this.display = new h2d.Object());",
+      "\t}",
+      "",
+      "\tpublic function init(world: World) {",
+      "\t\tthis.world = world;",
+      "\t\tthis.dispatcher = new MessageListenersGroup(this.world.dispatcher);",
+      "\t\tsetupMessages(this.dispatcher);",
+      "\t}",
+      "",
+      "\tpublic function enter() {",
+      "\t\tthis.display.visible = true;",
+      "\t\tthis.dispatcher.enable();",
+      "\t}",
+      "",
+      "\tpublic function exit() {",
+      "\t\tthis.display.visible = false;",
+      "\t\tthis.dispatcher.disable();",
+      "\t}",
+      "}"
+    ]
+  },
 
 
   "DynamicTypeClassDefinition": {
@@ -804,6 +909,12 @@
     ],
     "description": "Create a dynamic type"
   },
+
+
+
+
+
+
   "Rules.loadDynamicType": {
     "prefix": ["rules.loadDynamicTypes"],
     "body": [
@@ -833,12 +944,6 @@
       "}"
     ]
   },
-
-
-
-
-
-
   "Rules.loadEntity": {
     "prefix": ["rules.loadEntity"],
     "body": [
@@ -871,18 +976,44 @@
       "public var $2: Map<String, $1> = [];",
       "function load$1(dir: String, filePath: String) {",
       "",
-      "\tfunction add(type: $1) {",
-      "\t\tthis.$2[type.id] = type;",
-      "\t}",
-      "",
       "\tfinal configPath = haxe.io.Path.join([dir, filePath]);",
       "\tfinal data: Array<Dynamic> = executePath(configPath);",
       "",
       "\tvar count = 0;",
       "\tfor (t in data) {",
       "\t\tfinal conf: $1.$1Conf = t;",
-      "\t\tfinal tt = new $1(conf);",
-      "\t\tadd(tt);",
+      "\t\tfinal rule = new $1(conf);",
+      "\t\tthis.$2.set(rule.id, rule);",
+      "\t\tcount += 1;",
+      "\t}",
+      "\tLogger.debug('\\${count} $1s loaded.', \"[Rules]\");",
+      "}"
+    ]
+  },
+  "Rules.loadLogicObject": {
+    "prefix": ["rules.loadLogicObject"],
+    "description": [
+      "Snippet for [LogicObject].\n",
+      "",
+      "- Similar to Rule, specify logic and is reference by typeId.\n",
+      "- Similar to DataContainer, cannot exists outside of the parent container.\n",
+      "- Similar to Entity, provide logic.\n"
+    ],
+    "body": [
+      "/**",
+      "\tThis load the ${1:LogicObject}Factory to ${2:logicObjects}",
+      "**/",
+      "public var $2: Map<String, $1Factory> = [];",
+      "function load$1(dir: String, filePath: String) {",
+      "",
+      "\tfinal configPath = haxe.io.Path.join([dir, filePath]);",
+      "\tfinal data: Array<Dynamic> = executePath(configPath);",
+      "",
+      "\tvar count = 0;",
+      "\tfor (t in data) {",
+      "\t\tfinal conf: $1Conf = t;",
+      "\t\tfinal object = new $1Factory(this, conf);",
+      "\t\tthis.$2.set(object.id, object);",
       "\t\tcount += 1;",
       "\t}",
       "\tLogger.debug('\\${count} $1s loaded.', \"[Rules]\");",
@@ -1074,11 +1205,24 @@
   },
   "Serialisable.@serialise": {
     "prefix": ["@serialise"],
+    "description": [
+      "serialise the field.\n",
+      "\n",
+      "@serialise(key: [null], fromContext: [false])\n",
+      "key - the store key. if null will use the field name\n",
+      "fromContext - if true will get the object from context instead of serialising it.\n",
+      "e.g. @serialise(null, true) to store the id + take the object from context.\n",
+      "\n",
+      "See @fromContext to always serialise from context without saving."
+    ],
     "body": ["@serialise "]
   },
-  "Serialisable.@serialise.expand": {
-    "prefix": ["@serialise.identifier"],
-    "body": ["@serialise(null, true) "]
+  "Serialisable.@fromContext": {
+    "prefix": ["@fromContext"],
+    "description": [
+      "always take the value of this field from context on load based on the identifier."
+    ],
+    "body": ["@fromContext "]
   },
 
   "ObjectPool.Macro": {
@@ -1087,6 +1231,18 @@
       "#if !macro @:build(zf.macros.ObjectPool.build()) #end"
     ]
   },
+  "ObjectPool.dispose": {
+    "prefix": ["@dispose"],
+    "description": [
+      "@dispose(type: [all])\n",
+      "\n",
+      "@dispose(\"all\")\n",
+      "@dispose(\"set\", value: [null])\n",
+      "@dispose(\"func\", funcName)\n"
+    ],
+    "body": ["@dispose "]
+  },
+
   "objectPoolalloc": {
     "prefix": ["objectPool.alloc"],
     "body": [
@@ -1094,6 +1250,25 @@
       "\tfinal object = $1.__alloc__();",
       "\treturn object;",
       "}"
+    ]
+  },
+
+  "ClassBuilder.Macro": {
+    "prefix": ["macro.classBuilder", "classBuilder"],
+    "body": [
+      "#if !macro @:build(zf.macros.ClassBuilder.build()) #end"
+    ]
+  },
+  "ClassBuilder.@forward": {
+    "prefix": ["@forward"],
+    "body": [
+      "@forward "
+    ],
+    "description": [
+      "@forward(fields: null)\n",
+      "\n",
+      "If fields is not provided, then all fields will be forwarded if it does not\n",
+      "exists in the containing class."
     ]
   },
 
@@ -1158,4 +1333,5 @@
       "}"
     ]
   }
+
 }

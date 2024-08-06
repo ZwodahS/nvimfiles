@@ -25,3 +25,5 @@ hi MDNumber ctermfg=10 guifg=#00ff00
 syn region haxeFoldBraces start="{" end="}" transparent fold
 hi def link ZCommentSpecial1 xxx
 hi xxx ctermfg=238 guifg=#ff0000
+
+hi haxeMeta guifg=#e67a73

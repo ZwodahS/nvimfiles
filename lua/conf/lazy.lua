@@ -41,7 +41,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"ZwodahS/cmp-nvim-tags",
-			{ "hrsh7th/cmp-vsnip", commit = "1ae05c6" },
+			"ZwodahS/cmp-vsnip",
 		},
 		priority = 300,
 	},
@@ -96,7 +96,7 @@ require("lazy").setup({
 	"ZwodahS/jopvim.nvim",
 
 	---- Snippet library ----
-	"hrsh7th/vim-vsnip",
+	"ZwodahS/vim-vsnip",
 
 	---- Zoom ----
 	"nyngwang/NeoZoom.lua",
