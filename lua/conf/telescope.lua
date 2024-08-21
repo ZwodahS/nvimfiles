@@ -10,6 +10,7 @@ require("telescope").setup {
 				["<Down>"] = require("telescope.actions").preview_scrolling_down,
 				["<C-j>"] = require("telescope.actions").move_selection_next,
 				["<C-k>"] = require("telescope.actions").move_selection_previous,
+				["<C-f>"] = require("telescope.actions").send_to_qflist + require("telescope.actions").open_qflist,
 				["<C-q>"] = require("telescope.actions").close,
 				["qqq"] = require("telescope.actions").close,
 			},
@@ -69,5 +70,6 @@ m.nmap('<C-T><C-B>', '<cmd>Telescope buffers theme=get_dropdown<CR>')
 -- m.nmap('<leader>tg', '<cmd>Telescope live_grep find_command=rg,--follow,--files<CR>')
 -- this does not search symlink
 m.nmap('<C-T><C-S>', '<cmd>Telescope live_grep<CR>')
+m.nmap('<C-T><C-W>', '<cmd>Telescope grep_string<CR>')
 m.nmap('<C-T><C-E><C-J>', '<cmd>Telescope emoji<CR>')
 m.imap('<C-E><C-J>', '<ESC><cmd>Telescope emoji<CR>')

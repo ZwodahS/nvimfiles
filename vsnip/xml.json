@@ -1,6 +1,6 @@
 {
   "group": {
-    "prefix": "lang.group",
+    "prefix": "l.group",
     "body": [
       "<group id=\"${1:id}\">",
       "\t$2",
@@ -8,7 +8,7 @@
     ]
   },
   "text": {
-    "prefix": "lang.text",
+    "prefix": "l.text",
     "body": [
       "<text id=\"${1:id}\">",
       "\t<en>$2</en>",
@@ -16,7 +16,7 @@
     ]
   },
   "en": {
-    "prefix": "lang.en",
+    "prefix": "l.en",
     "body": [
       "<en>$2</en>"
     ]

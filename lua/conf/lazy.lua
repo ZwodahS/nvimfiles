@@ -32,6 +32,9 @@ require("lazy").setup({
 	{"nvim-telescope/telescope.nvim", branch ="0.1.x" },
 	"xiyaowong/telescope-emoji.nvim",
 
+	---- Quick fix ----
+	"kevinhwang91/nvim-bqf",
+
 	---- Completion Engine ----
 	{
 		"hrsh7th/nvim-cmp",

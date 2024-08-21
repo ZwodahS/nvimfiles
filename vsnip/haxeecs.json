@@ -48,8 +48,8 @@
       "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
       "\tpublic static final MessageType = \"$2\";",
       "",
-      "\t@dispose(\"set\") public var prev: ${3:ObjType} = null;",
-      "\t@dispose(\"set\") public var next: $3 = null;",
+      "\t@:dispose(\"set\") public var prev: ${3:ObjType} = null;",
+      "\t@:dispose(\"set\") public var next: $3 = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper(MessageType);",
@@ -188,7 +188,7 @@
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Entity {",
       "",
-      "\tvar _proxy: ${1:$TM_FILENAME_BASE}Proxy = null;",
+      "\t@:dispose var _proxy: ${1:$TM_FILENAME_BASE}Proxy;",
       "",
       "\tpublic var proxy(get, never): $1Proxy;",
       "",
@@ -198,7 +198,7 @@
       "\t\treturn this._proxy;",
       "\t}",
       "",
-      "\tpublic var logic(default, set): $1LogicComponent = null;",
+      "\t@:dispose(\"set\") public var logic(default, set): $1LogicComponent = null;",
       "",
       "\tpublic function set_logic(component: $1LogicComponent): $1LogicComponent {",
       "\t\tfinal prev = this.logic;",
@@ -207,7 +207,7 @@
       "\t\treturn this.logic;",
       "\t}",
       "",
-      "\tpublic var render(default, set): $1RenderComponent = null;",
+      "\t@:dispose(\"set\") public var render(default, set): $1RenderComponent = null;",
       "",
       "\tpublic function set_render(component: $1RenderComponent): $1RenderComponent {",
       "\t\tfinal prev = this.render;",
@@ -216,7 +216,7 @@
       "\t\treturn this.render;",
       "\t}",
       "",
-      "\tpublic var state(default, set): $1StateComponent = null;",
+      "\t@:dispose(\"set\")public var state(default, set): $1StateComponent = null;",
       "",
       "\tpublic function set_state(component: $1StateComponent): $1StateComponent {",
       "\t\tfinal prev = this.state;",
@@ -227,21 +227,6 @@
       "",
       "\tpublic function new() {",
       "\t\tsuper();",
-      "\t}",
-      "",
-      "\toverride public function dispose() {",
-      "\t\tsuper.dispose();",
-      "\t\t__dispose__();",
-      "\t}",
-      "",
-      "\tpublic function reset() {",
-      "\t\tif (this._proxy != null) {",
-      "\t\t\tthis._proxy.dispose();",
-      "\t\t\tthis._proxy = null;",
-      "\t\t}",
-      "\t\tthis.logic = null;",
-      "\t\tthis.render = null;",
-      "\t\tthis.state = null;",
       "\t}",
       "",
       "\tpublic static function alloc(id: Int, factory: $1Factory): $1 {",
@@ -295,15 +280,16 @@
       "}"
     ]
   },
-  "ClassEntityProxy": {
+
+  "ClassProxy": {
     "prefix": ["classProxy"],
     "body": [
       "package ${4:world}.rules.proxies;",
       "",
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
-      "class ${1:$TM_FILENAME_BASE} extends Proxy {",
+      "class ${1:$TM_FILENAME_BASE} extends Proxy implements Disposable {",
       "",
-      "\t@dispose var ${3:object}: ${2:Object} = null;",
+      "\t@:dispose var ${3:object}: ${2:Object} = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper();",
@@ -336,7 +322,7 @@
       "\t\treturn ComponentType;",
       "\t}",
       "",
-      "\t@dispose public var factory(default, set): ${2:Entity}Factory = null;",
+      "\t@:dispose public var factory(default, set): ${2:Entity}Factory = null;",
       "",
       "\tpublic function set_factory(v: $2Factory): $2Factory {",
       "\t\tthis.factory = v;",
@@ -366,7 +352,6 @@
       "\t\treturn object;",
       "\t}",
       "",
-      "\t// This is rarely called since entity always creates these component.",
       "\tpublic static function empty(): $1 {",
       "\t\treturn alloc(null);",
       "\t}",
@@ -428,6 +413,37 @@
     ],
     "description": "Create a component class from template"
   },
+  "ClassDataComponent": {
+    "prefix": ["classDataComponent"],
+    "body": [
+      "package ${4:world}.rules.entities.components;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.Serialise.build()) #end",
+      "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
+      "class ${1:$TM_FILENAME_BASE} extends Component implements Serialisable implements EntityContainer {",
+      "\tpublic static final ComponentType = \"$1\";",
+      "",
+      "\toverride public function get_typeId(): String {",
+      "\t\treturn ComponentType;",
+      "\t}",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\t// ---- Object pooling Methods ----",
+      "\tpublic static function alloc(): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "\t\treturn object;",
+      "\t}",
+      "",
+      "\tpublic static function empty(): $1 {",
+      "\t\treturn alloc();",
+      "\t}",
+      "",
+      "}"
+    ],
+    "description": "Snippet for Data-type Component."
+  },
 
   "ClassContext": {
     "prefix": ["classContext"],
@@ -437,7 +453,7 @@
       "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Context {",
       "",
-      "\t@dispose var ${4:object}: ${3:Object} = null;",
+      "\t@:dispose var ${4:object}: ${3:Object} = null;",
       "",
       "\tfunction new() {",
       "\t\tsuper();",
@@ -482,7 +498,7 @@
   "varComponent": {
     "prefix": ["varcomponent"],
     "body": [
-      "@dispose public var ${1:component}(default, set): ${2:Component};",
+      "@:dispose(\"set\") public var ${1:component}(default, set): ${2:Component} = null;",
       "",
       "public function set_$1(component: $2): $2 {",
       "\tfinal prev = this.$1;",
@@ -538,9 +554,9 @@
       "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} implements Serialisable {",
       "",
-      "\t@dispose var factory: $1Factory = null;",
+      "\t@:dispose var factory: $1Factory = null;",
       "",
-      "\t@forward @dispose var conf: $1Conf = null;",
+      "\t@:forward @:dispose var conf: $1Conf = null;",
       "",
       "\tfunction new() {}",
       "",
@@ -685,6 +701,19 @@
     ]
   },
 
+  "varproxy": {
+    "prefix": ["varproxy"],
+    "body": [
+      "@:dispose var _${1:proxy}: ${2:$TM_FILENAME_BASE}Proxy;",
+      "public var $1(get, never): $2Proxy;",
+      "",
+      "public function get_$1(): $2Proxy {",
+      "\tif (this._$1 == null) this._$1 = $2Proxy.alloc(this.world, this);",
+      "\treturn this._$1;",
+      "}"
+    ]
+  },
+
   "dispatcher.listen.old": {
     "prefix": ["mListen", "dispatcher.listen"],
     "body": [
@@ -705,7 +734,7 @@
   "messagesHandle": {
     "prefix": ["handleMessage", "mHandle"],
     "body": [
-      "@handleMessage(\"${1:Message}\", ${2:0})",
+      "@:handleMessage(\"${1:Message}\", ${2:0})",
       "function m${3:handleMessage}(m: $1) {",
       "\t${4://note: message will be dispose once this function exits.}",
       "}"
@@ -1203,26 +1232,26 @@
       "}"
     ]
   },
-  "Serialisable.@serialise": {
-    "prefix": ["@serialise"],
+  "Serialisable.@:serialise": {
+    "prefix": ["@:serialise"],
     "description": [
       "serialise the field.\n",
       "\n",
-      "@serialise(key: [null], fromContext: [false])\n",
+      "@:serialise(key: [null], fromContext: [false])\n",
       "key - the store key. if null will use the field name\n",
       "fromContext - if true will get the object from context instead of serialising it.\n",
-      "e.g. @serialise(null, true) to store the id + take the object from context.\n",
+      "e.g. @:serialise(null, true) to store the id + take the object from context.\n",
       "\n",
-      "See @fromContext to always serialise from context without saving."
+      "See @:fromContext to always serialise from context without saving."
     ],
-    "body": ["@serialise "]
+    "body": ["@:serialise "]
   },
-  "Serialisable.@fromContext": {
-    "prefix": ["@fromContext"],
+  "Serialisable.@:fromContext": {
+    "prefix": ["@:fromContext"],
     "description": [
       "always take the value of this field from context on load based on the identifier."
     ],
-    "body": ["@fromContext "]
+    "body": ["@:fromContext "]
   },
 
   "ObjectPool.Macro": {
@@ -1232,15 +1261,21 @@
     ]
   },
   "ObjectPool.dispose": {
-    "prefix": ["@dispose"],
+    "prefix": ["@:dispose"],
     "description": [
-      "@dispose(type: [all])\n",
+      "@:dispose(type: [all])\n",
       "\n",
-      "@dispose(\"all\")\n",
-      "@dispose(\"set\", value: [null])\n",
-      "@dispose(\"func\", funcName)\n"
+      "@:dispose(\"all\")\n",
+      "@:dispose(\"set\", value: [null])\n",
+      "@:dispose(\"func\", funcName)\n",
+      "\n",
+      "All|Auto\n",
+      "- for primitive, it will set to the default value.",
+      "- for disposable, dispose() will be called.",
+      "- for array, it will set to the default value.",
+      "-"
     ],
-    "body": ["@dispose "]
+    "body": ["@:dispose "]
   },
 
   "objectPoolalloc": {
@@ -1259,13 +1294,13 @@
       "#if !macro @:build(zf.macros.ClassBuilder.build()) #end"
     ]
   },
-  "ClassBuilder.@forward": {
-    "prefix": ["@forward"],
+  "ClassBuilder.@:forward": {
+    "prefix": ["@:forward"],
     "body": [
-      "@forward "
+      "@:forward "
     ],
     "description": [
-      "@forward(fields: null)\n",
+      "@:forward(fields: null)\n",
       "\n",
       "If fields is not provided, then all fields will be forwarded if it does not\n",
       "exists in the containing class."

@@ -86,10 +86,10 @@ m.nmap('<Right>', ':vertical resize +3<CR>')
 m.nmap('<C-W>-', ':vertical resize 160<CR>')
 
 ---- QOL
-m.nmap('<Enter>', ':FineCmdline<CR>')
+m.nmap('<leader><Enter>', ':FineCmdline<CR>')
 -- m.nmap('<Enter>', ':')
 m.nmap('!', ':!')
-m.nmap('<TAB>', 'f<space>');
+m.nmap('<Space>', 'f<space>');
 -- paste while in insert mode
 m.imap('<C-E><C-I>', '<ESC>pa')
 

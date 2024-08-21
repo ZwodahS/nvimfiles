@@ -9,6 +9,7 @@ syn region haxeComment2 start=+/\*+ end=+\*/+ contains=haxeTODO,@Spell,ZDatetime
 syn match MDTitle "\v^\s*#+ .*" contained
 syn match MDBullet '\v^\s*\-' contained
 syn match MDNumber '\v^\s*\d+\.' contained
+syn match haxeMeta "@:\?[a-zA-Z_][a-zA-Z_0-9.]*\>"
 
 hi def link assert ZSpecialRed
 hi def link logger ZSpecialGreen

@@ -12,7 +12,7 @@ local function on_attach(bufnr)
 	-- add your mappings
 	vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
   vim.keymap.set('n', '<CR>',    api.node.open.edit,                  opts('Open'))
-  vim.keymap.set('n', '<C-v>',   api.node.open.tab,                   opts('Open: New Tab'))
+  vim.keymap.set('n', '<C-t>',   api.node.open.tab,                   opts('Open: New Tab'))
   vim.keymap.set('n', 'l',			 api.node.open.edit,                  opts('Open'))
   vim.keymap.set('n', 'n',       api.fs.create,                       opts('Create File Or Directory'))
   vim.keymap.set('n', 'r',       api.fs.rename,                       opts('Rename'))
