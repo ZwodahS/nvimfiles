@@ -35,6 +35,12 @@ require("lazy").setup({
 	---- Quick fix ----
 	"kevinhwang91/nvim-bqf",
 
+	---- Todo in Comments ----
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+
 	---- Completion Engine ----
 	{
 		"hrsh7th/nvim-cmp",
@@ -63,6 +69,14 @@ require("lazy").setup({
 	---- Lsp ----
 	{ "neovim/nvim-lspconfig", priority = 100 },
 	{ "williamboman/nvim-lsp-installer", priority = 99},
+	{
+		"hedyhli/outline.nvim", lazy = true,
+		cmd = { "Outline", "OutlineOpen" },
+		keys = { -- Example mapping to toggle outline
+			{ "<leader>o", "<cmd>OutlineOpen<CR>", desc = "Toggle outline" },
+			{ "<leader>O", "<cmd>Outline!<CR>", desc = "Toggle outline" },
+		},
+	},
 
 	---- Vim Surround ----
 	"tpope/vim-surround", -- "https://github.com/tpope/vim-surround

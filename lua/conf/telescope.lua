@@ -58,7 +58,6 @@ require("telescope").setup {
 require("telescope").load_extension("emoji")
 -- replace ctrlp
 m.nmap('<C-P>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
-m.nmap('<C-T><C-F>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
 -- preview file
 m.nmap('<C-T><C-R>', '<cmd>Telescope find_files<CR>')
 -- open tags
