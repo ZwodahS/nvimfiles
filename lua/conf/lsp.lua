@@ -117,5 +117,12 @@ require("trouble").setup {
 	use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
 }
 
+require("outline").setup({
+	outline_window = {
+		relative_width = false,
+		width = 40,
+	}
+})
+
 m.nmap('tr', ':TroubleToggle document_diagnostics<CR>')
 m.nmap('ts', ':TroubleToggle lsp_references<CR>')

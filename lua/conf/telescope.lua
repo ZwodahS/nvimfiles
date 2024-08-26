@@ -58,10 +58,10 @@ require("telescope").setup {
 require("telescope").load_extension("emoji")
 -- replace ctrlp
 m.nmap('<C-P>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
--- preview file
-m.nmap('<C-T><C-R>', '<cmd>Telescope find_files<CR>')
+m.nmap('<C-T><C-P>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
 -- open tags
-m.nmap('<C-T><C-T>', '<cmd>Telescope current_buffer_tags theme=get_dropdown<CR>')
+-- Mon 12:30:20 26 Aug 2024 Tag disabled for now, since I don't use it as much
+-- m.nmap('<C-T><C-T>', '<cmd>Telescope current_buffer_tags theme=get_dropdown<CR>')
 m.nmap('<C-T><C-J>', '<cmd>Telescope jumplist theme=get_dropdown<CR>')
 -- search buffer name
 m.nmap('<C-T><C-B>', '<cmd>Telescope buffers theme=get_dropdown<CR>')

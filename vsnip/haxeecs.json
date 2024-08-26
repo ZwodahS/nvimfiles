@@ -649,7 +649,7 @@
       "\t\tsuper($TM_FILENAME_BASE.$1);",
       "\t}",
       "",
-      "\toverride public function copy(): $1State {",
+      "\toverride public function clone(): $1State {",
       "\t\treturn $1State.alloc(this.world);",
       "\t}",
       "",
@@ -1367,6 +1367,12 @@
       "\t${1:}",
       "}"
     ]
-  }
+  },
 
+  "assert": {
+    "prefix": ["assert"],
+    "body": [
+      "Assert.assert($0);"
+    ]
+  }
 }
