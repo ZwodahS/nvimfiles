@@ -241,7 +241,7 @@
       "\t\t// $2: haxe.macro.Type, $3: haxe.macro.Expr",
       "\tcase FFun(${4:func}):",
       "\t\t// $4: haxe.macro.Function",
-      "\tcase FProp(g, s, t.toType() => $2, $3):",
+      "\tcase FProp(g, s, _.toType() => $2, $3):",
       "\t\t// g: String, s: String, $2:haxe.macro.Type, $3:haxe.macro.Expr",
       "}"
     ]

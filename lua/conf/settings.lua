@@ -10,6 +10,11 @@ m.nmap('<C-H>', '<NOP>')
 m.imap('<C-H>', '<NOP>')
 m.nmap('<C-Q>', '<NOP>')
 m.nmap('<C-T>', '<NOP>')
+-- Used to be mapped to resize, but we have since use auto resized, so we disable these too
+m.nmap('<Up>', '<NOP>')
+m.nmap('<Down>', '<NOP>')
+m.nmap('<Left>', '<NOP>')
+m.nmap('<Right>', '<NOP>')
 ------ Tabs
 vim.cmd("set softtabstop=4")
 vim.cmd("set tabstop=4")
@@ -34,8 +39,6 @@ vim.cmd("set cursorline")
 vim.cmd("set cursorcolumn")
 vim.cmd("set completeopt=menuone,noselect,noinsert")
 ------ various key mappings
-m.nmap('<leader>vfv', ':view ' .. vim.g.vimrc .. '<CR>')
-m.nmap('<leader>vfp', ':view ' .. vim.g.plugins .. '<CR>')
 -- set the character for EOL and tabs
 m.nmap('<leader>l', ':set list!<CR>')
 -- line number and relative number switching
@@ -78,20 +81,16 @@ m.nmap('<leader>tt4', ':set softtabstop=4<CR>:set tabstop=4<CR>:set shiftwidth=4
 
 ---- Windows
 -- resize splits
-m.nmap('<Up>', ':resize +3<CR>')
-m.nmap('<Down>', ':resize -3<CR>')
-m.nmap('<Left>', ':vertical resize -3<CR>')
-m.nmap('<Right>', ':vertical resize +3<CR>')
 -- make it width 160, i.e. the main window
-m.nmap('<C-W>-', ':vertical resize 160<CR>')
 
 ---- QOL
 m.nmap('<leader><Enter>', ':FineCmdline<CR>')
 -- m.nmap('<Enter>', ':')
-m.nmap('!', ':!')
 m.nmap('<Space>', 'f<space>');
 -- paste while in insert mode
 m.imap('<C-E><C-I>', '<ESC>pa')
+-- map <C-d> to del
+m.imap('<C-d>', "<DEL>")
 
 ---- Whitespace removal
 m.nmap('<leader><Space>', ':FixWhitespace<CR>')
@@ -102,14 +101,8 @@ m.imap('<C-e><C-e>', '<C-R>=expand("%:t:r")<CR>')
 m.imap('<C-e><C-d>', '<C-R>=strftime("%d %b %Y")<CR>')
 m.imap('<C-e><C-t>', '<C-R>=strftime("%a %H:%M:%S %d %b %Y")<CR>')
 
----- sessions
-m.nmap('<C-S><C-S>', ':mksession! .session<CR>');
-
 ---- Create a xml/html tag on a text
-m.vmap('<C-x><C-x>', 'xa<<ESC>pa></<ESC>pa><ESC>');
+m.vmap('<C-x><C-x>', 'xa<<ESC>pa></<ESC>pa><ESC>F>a');
 
-
--- Not sure how to handle these, will migrate slowly
---
 -- Always keep the split resized equally, only applies to file via *.*
 vim.cmd("autocmd WinEnter *.* wincmd =")

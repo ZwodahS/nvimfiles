@@ -180,6 +180,30 @@
     ]
   },
 
+  "ClassData": {
+    "prefix": ["classData"],
+    "description": [
+      "Snippet for [Data] object.\n",
+      "\n",
+      "Essentially, this is a object pool-ed object.\n",
+      "This is not meant to be serialised."
+    ],
+    "body": [
+      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "class ${1:$TM_FILENAME_BASE} {",
+      "",
+      "\tfunction new() {}",
+      "",
+      "\t// ---- Object pooling Methods ----",
+      "\tpublic static function alloc(): $1 {",
+      "\t\tfinal object = $1.__alloc__();",
+      "",
+      "\t\treturn object;",
+      "\t}",
+      "}"
+    ]
+  },
+
   "ClassEntity": {
     "prefix": ["classEntity"],
     "body": [
@@ -497,6 +521,12 @@
   },
   "varComponent": {
     "prefix": ["varcomponent"],
+    "body": [
+      "@:dispose(\"set\") public var ${1:component}: ${2:Component} = null;"
+    ]
+  },
+  "varComponent.full": {
+    "prefix": ["varcomponent.full"],
     "body": [
       "@:dispose(\"set\") public var ${1:component}(default, set): ${2:Component} = null;",
       "",
@@ -1011,8 +1041,8 @@
       "\tvar count = 0;",
       "\tfor (t in data) {",
       "\t\tfinal conf: $1.$1Conf = t;",
-      "\t\tfinal rule = new $1(conf);",
-      "\t\tthis.$2.set(rule.id, rule);",
+      "\t\tfinal ${3:rule} = new $1(conf);",
+      "\t\tthis.$2.set($3.id, $3);",
       "\t\tcount += 1;",
       "\t}",
       "\tLogger.debug('\\${count} $1s loaded.', \"[Rules]\");",

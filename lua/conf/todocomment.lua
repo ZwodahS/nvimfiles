@@ -10,8 +10,9 @@ require("todo-comments").setup({
     HACK = { icon = " ", color = "warning", alt = {"WEIRD", "WHY"} },
     WARN = { icon = " ", color = "warning" },
     OPTIMIZE = { icon = " " },
-    NOTE = { icon = " ", color = "hint", alt = { "INFO", "IDEA" } },
-		ISTOPHERE = { icon = " ", color = "error", alt = { "FLOW", "HERE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO", "IDEA", "QUESTION" } },
+		ISTOPHERE = { icon = " ", color = "stophere", alt = { "FLOW", "HERE" } },
+		ASSUMPTION = { icon = " ", color = "error" },
   },
   gui_style = {
     fg = "NONE", -- The gui style to use for the fg highlight group.
@@ -42,7 +43,8 @@ require("todo-comments").setup({
     info = { "DiagnosticInfo", "#2563EB" },
     hint = { "DiagnosticHint", "#10B981" },
     default = { "Identifier", "#7C3AED" },
-    test = { "Identifier", "#FF00FF" }
+    test = { "Identifier", "#FF00FF" },
+		stophere = { "STOPHERE", "#FFC88B" }
   },
   search = {
     command = "rg",
@@ -60,6 +62,8 @@ require("todo-comments").setup({
   },
 })
 
+m.nmap("<C-t><C-r>", "<cmd>TodoTelescope keywords=ISTOPHERE,HERE<CR>")
+m.nmap("<C-t><C-t>", "<cmd>TodoTelescope keywords=TODO<CR>")
 m.nmap("<C-t><C-d>", "<cmd>TodoTelescope<CR>")
 m.nmap("<C-t><C-f>", "<cmd>TodoLocList<CR>")
 m.nmap("]t", '<cmd>lua require("todo-comments").jump_next()<CR>')

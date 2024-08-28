@@ -95,6 +95,7 @@ M.setup = function ()
 			CommentNearInvisible = { fg = blend(c.a.com, c.a.bg, .2) },
 			PMenu = { fg = c.a.fg, bg = blend(c.a.bg, c.a.fg, .9) },
 			PMenuSel = { fg = c.a.fg, bg = c.b.red },
+			STOPHERE = { fg = c.b.black, bg = "#FFC88B" },
 
 			HopNextKey = { fg = c.b.green, bold = true },
 			HopNextKey1 = { fg = c.b.yellow, bold = true },
