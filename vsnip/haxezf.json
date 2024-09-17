@@ -23,7 +23,7 @@
     "body": [
       "package ${1:world}.messages;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
       "\tpublic static final MessageType = \"$2\";",
       "",
@@ -39,17 +39,50 @@
     ],
     "description": "Snippet for empty message class."
   },
+  "ClassResultMessage": {
+    "prefix": ["classResultMessage"],
+    "body": [
+      "package ${1:world}.messages;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
+      "class ${5:$TM_FILENAME_BASE} extends zf.Message.ResultMessage<${2:T}> {",
+      "\tpublic static final MessageType = \"$5\";",
+      "",
+      "\t// Proxy ${3:field} to result",
+      "\tpublic var $3(get, set): $2;",
+      "\tinline function get_$3(): $2 {",
+      "\t\treturn this.result;",
+      "\t}",
+      "\tpublic function set_$3(v: $2): $2 {",
+      "\t\treturn this.result = v;",
+      "\t}",
+      "",
+      "\tfunction new() {",
+      "\t\tsuper(MessageType);",
+      "\t}",
+      "",
+      "\tpublic static function alloc(): ${5} {",
+      "\t\tfinal m = __alloc__();",
+      "",
+      "\t\tm.$3 = ${4:defaultValue};",
+      "",
+      "\t\treturn m;",
+      "\t}",
+      "}"
+    ],
+    "description": "Snippet for empty message class."
+  },
   "ClassMessage.prevnext": {
     "prefix": ["classMessage.prevnext"],
     "body": [
       "package ${1:world}.messages;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
       "\tpublic static final MessageType = \"$2\";",
       "",
-      "\t@:dispose(\"set\") public var prev: ${3:ObjType} = null;",
-      "\t@:dispose(\"set\") public var next: $3 = null;",
+      "\t@:dispose public var prev: ${3:ObjType} = ${4:null};",
+      "\t@:dispose public var next: $3 = $4;",
       "",
       "\tfunction new() {",
       "\t\tsuper(MessageType);",
@@ -65,6 +98,32 @@
       "\t}",
       "\toverride public function toString() {",
       "\t\treturn '[m:\\${this.type} \\${this.prev}->\\${this.next}]';",
+      "\t}",
+      "}"
+    ],
+    "description": "Snippet for message class with a prev and next fields."
+  },
+  "ClassMessage.single": {
+    "prefix": ["classMessage.single"],
+    "body": [
+      "package ${1:world}.messages;",
+      "",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
+      "class ${2:$TM_FILENAME_BASE} extends zf.Message {",
+      "\tpublic static final MessageType = \"$2\";",
+      "",
+      "\t@:dispose public var ${3:field}: ${4:ObjectType} = ${5:null};",
+      "",
+      "\tfunction new() {",
+      "\t\tsuper(MessageType);",
+      "\t}",
+      "",
+      "\tpublic static function alloc($3: $4): ${2} {",
+      "\t\tfinal m = __alloc__();",
+      "",
+      "\t\tm.$3 = $3;",
+      "",
+      "\t\treturn m;",
       "\t}",
       "}"
     ],
@@ -155,7 +214,7 @@
       "- Cannot exists outside of the parent container.\n"
     ],
     "body": [
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "#if !macro @:build(zf.macros.Serialise.build()) #end",
       "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
       "class ${1:$TM_FILENAME_BASE} implements Serialisable implements EntityContainer {",
@@ -189,7 +248,7 @@
       "This is not meant to be serialised."
     ],
     "body": [
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} {",
       "",
       "\tfunction new() {}",
@@ -209,7 +268,7 @@
     "body": [
       "package ${2:world}.rules.entities;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Entity {",
       "",
       "\t@:dispose var _proxy: ${1:$TM_FILENAME_BASE}Proxy;",
@@ -310,7 +369,7 @@
     "body": [
       "package ${4:world}.rules.proxies;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Proxy implements Disposable {",
       "",
       "\t@:dispose var ${3:object}: ${2:Object} = null;",
@@ -336,7 +395,7 @@
     "body": [
       "package ${4:world}.rules.entities.components;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "#if !macro @:build(zf.macros.Serialise.build()) #end",
       "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Component implements Serialisable implements EntityContainer {",
@@ -389,7 +448,7 @@
     "body": [
       "package ${4:world}.rules.entities.components;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Component {",
       "\tpublic static final ComponentType = \"$1\";",
       "",
@@ -442,7 +501,7 @@
     "body": [
       "package ${4:world}.rules.entities.components;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "#if !macro @:build(zf.macros.Serialise.build()) #end",
       "#if !macro @:build(zf.macros.Engine2.collectEntities()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Component implements Serialisable implements EntityContainer {",
@@ -474,7 +533,7 @@
     "body": [
       "package ${2:world}.rules.contexts;",
       "",
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends Context {",
       "",
       "\t@:dispose var ${4:object}: ${3:Object} = null;",
@@ -672,7 +731,7 @@
   "ClassChildState": {
     "prefix": ["classChildState"],
     "body": [
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "private class ${1:Name}State extends $TM_FILENAME_BASE {",
       "",
       "\tfunction new() {",
@@ -774,7 +833,13 @@
   "DispatcherDispatch": {
     "prefix": ["dispatch"],
     "body": [
-      "${4:this.}dispatcher.dispatch(${1:Message}.alloc($2))${3:.dispose()};"
+      "${3:this.}dispatcher.dispatch(${1:Message}.alloc($2))${4:.dispose()};"
+    ]
+  },
+  "DispatchAndGetResult": {
+    "prefix": ["mGetResult"],
+    "body": [
+      "final ${2:value} = ${4:this.}dispatcher.getResult(${1:Message}.alloc($3));"
     ]
   },
   "mDispatcherDispatch": {
@@ -794,7 +859,7 @@
   "ClassUIElement": {
     "prefix": ["classUIElement"],
     "body": [
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends UIElement implements Disposable {",
       "",
       "\tpublic var display: h2d.Object;",
@@ -1349,7 +1414,7 @@
   "XmlComponent": {
     "prefix": ["classXmlComponent"],
     "body": [
-      "#if !macro @:build(zf.macros.ObjectPool.addObjectPool()) #end",
+      "#if !macro @:build(zf.macros.ObjectPool.build()) #end",
       "class ${1:$TM_FILENAME_BASE} extends zf.ui.builder.XmlComponent {",
       "",
       "\tpublic function new() {",

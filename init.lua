@@ -43,3 +43,6 @@ require("conf.filetypes")
 require("conf.test")
 require("conf.projects")
 require("conf.todocomment")
+
+-- Disabled for now, see lazy.lua for info
+-- require("conf.nvim-treesitter")

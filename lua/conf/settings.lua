@@ -7,7 +7,6 @@ vim.g.python3_host_prog = vim_home .. "/venv3/bin/python"
 m.nmap('Q', '<NOP>')
 m.nmap('<C-G>', '<NOP>')
 m.nmap('<C-H>', '<NOP>')
-m.imap('<C-H>', '<NOP>')
 m.nmap('<C-Q>', '<NOP>')
 m.nmap('<C-T>', '<NOP>')
 -- Used to be mapped to resize, but we have since use auto resized, so we disable these too

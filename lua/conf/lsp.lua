@@ -3,7 +3,7 @@ local m = require("conf.mappings");
 -- lsp_signature
 -- https://github.com/ray-x/lsp_signature.nvim
 local lsp_sig_cfg = {
-	debug = false, -- set to true to enable debug logging
+	debug = true, -- set to true to enable debug logging
 	log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
 	-- default is	~/.cache/nvim/lsp_signature.log
 	verbose = false, -- show debug line number
@@ -64,9 +64,12 @@ require('lspconfig').haxe_language_server.setup{
 			-- require("lsp_signature").setup(lsp_sig_cfg)
 			-- require "lsp_signature".on_attach()
 		end,
-		root_dir = util.root_pattern '.lsp.hxml',
+		-- root_dir = util.root_pattern '.lsp.hxml',
+		root_dir = function(fname)
+			return vim.fn.getcwd()
+		end,
 }
-
+--[[
 -- trouble settings
 -- https://github.com:/folke/trouble.nvim
 require("trouble").setup {
@@ -116,6 +119,7 @@ require("trouble").setup {
 	},
 	use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
 }
+--]]
 
 require("outline").setup({
 	outline_window = {
@@ -123,6 +127,3 @@ require("outline").setup({
 		width = 40,
 	}
 })
-
-m.nmap('tr', ':TroubleToggle document_diagnostics<CR>')
-m.nmap('ts', ':TroubleToggle lsp_references<CR>')

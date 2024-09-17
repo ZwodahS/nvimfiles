@@ -1,2 +1,4 @@
 plugins
 lua/local.lua
+.joplin_token
+lazy-lock.json

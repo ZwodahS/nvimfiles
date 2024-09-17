@@ -8,11 +8,9 @@ require("todo-comments").setup({
     FIXME = { icon = " ", color = "error" },
     TODO = { icon = " ", color = "info" },
     HACK = { icon = " ", color = "warning", alt = {"WEIRD", "WHY"} },
-    WARN = { icon = " ", color = "warning" },
     OPTIMIZE = { icon = " " },
     NOTE = { icon = " ", color = "hint", alt = { "INFO", "IDEA", "QUESTION" } },
-		ISTOPHERE = { icon = " ", color = "stophere", alt = { "FLOW", "HERE" } },
-		ASSUMPTION = { icon = " ", color = "error" },
+		ISTOPHERE = { icon = " ", color = "stophere", alt = { "HERE" } },
   },
   gui_style = {
     fg = "NONE", -- The gui style to use for the fg highlight group.

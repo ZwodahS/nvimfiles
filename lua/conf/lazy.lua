@@ -55,7 +55,8 @@ require("lazy").setup({
 		priority = 300,
 	},
 
-	"folke/trouble.nvim",
+	-- Fri 12:54:01 06 Sep 2024 Disable for now, don't seems to be working
+	-- "folke/trouble.nvim",
 
 	---- Statusline ----
 	"rafcamlet/tabline-framework.nvim",
@@ -122,14 +123,20 @@ require("lazy").setup({
 	"petertriho/nvim-scrollbar",
 
 	------- Language --------
+	---- Treesitter ----
+	-- Tue 12:15:43 17 Sep 2024 Disabled for now
+	-- I really want to add treesitter, but I need a few plugins like todocomments to work.
+	-- I also need to be able to add my own syntax
+	-- "nvim-treesitter/nvim-treesitter",
+
 	---- Haxe ----
 	{ "jdonaldson/vaxe", priority = 500 },
 
-	---- Testing ----
-	"m4xshen/autoclose.nvim",
+	---- autoclose
+	{ "m4xshen/autoclose.nvim" },
+
 	"vonheikemen/fine-cmdline.nvim",
 
-	---- autoclose
 }, {
 	root = vim.fn.stdpath("config") .. "/plugins",
 });

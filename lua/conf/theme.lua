@@ -84,12 +84,15 @@ M.setup = function ()
 		-- add orange :P
 		c.b.orange = blend(c.b.red, c.b.yellow, 0.5);
 		c.b.dark = blend(c.a.bg, c.a.fg, 0.5);
+		c.b.darkred = blend(c.b.red, c.a.bg, 0.5);
 
 		extensions = {
 			ZDatetime = { fg = blend(c.b.blue, c.a.com, 0.6) },
 			ZStop = { fg = "#FF0000" },
-			ZSpecialRed = { fg = c.b.red },
+			ZSpecialRed = { fg = c.b.red, },
 			ZSpecialGreen = { fg = c.b.green },
+			ZSpecialYellow = { fg = c.b.yellow },
+			ZSpecialCyan = { fg = c.b.cyan },
 			ZCommentSpecial1 = { fg = blend(c.b.red, c.a.bg, .8) },
 			ZCommentSpecial2 = { fg = blend(c.b.green, c.a.bg, .8) },
 			CommentNearInvisible = { fg = blend(c.a.com, c.a.bg, .2) },
