@@ -13,9 +13,7 @@ require("lazy").setup({
 
 	---- Themes && UI ----
 	-- Theme
-	{ "folke/tokyonight.nvim", branch = "main", priority = 999 },
 	{ "savq/melange-nvim", priority = 999 },
-	{ "sainnhe/everforest", priority = 999 },
 	"ZwodahS/nvim-colorizer.lua",
 
 	---- File Searching and Tree

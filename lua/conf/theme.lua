@@ -33,55 +33,9 @@ M.setup = function ()
 	local extensions = {}
 
 	-- Post loading configuration
-	if colorscheme == "tokyonight" then
-		vim.g.tokyonight_style = "night"
-		vim.g.tokyonight_italic_functions = true
-
-		M.colors = {
-			fg = c.fg,
-			bg = c.bg,
-			red = c.red1,
-			green = c.green1,
-			blue = c.blue,
-			status_color = {
-				bg = c.bg,
-				fg = c.blue,
-				white = c.fg,
-
-				errors = c.red,
-				warnings = c.yellow,
-				hints = c.green,
-
-			}
-		}
-		local c = require("tokyonight.colors").setup({})
-		extensions = {
-			ZDatetime = { fg = blend(c.comment, c.fg, 0.3), style = "bold"},
-			ZStop = { fg = "#FF0000" },
-			ZSpecialRed = { fg = c.red1 },
-			ZSpecialGreen = { fg = c.green1 },
-			ZCommentSpecial1 = { fg = blend(c.red1, c.bg, .8) , style = "italic" },
-			ZCommentSpecial2 = { fg = blend(c.green, c.bg, .8) , style = "italic" },
-			CommentNearInvisible = { fg = blend(c.comment, c.bg, .2) },
-			PMenu = { fg = c.fg },
-			PMenuSel = { fg = c.fg, bg = c.blue },
-
-			HopNextKey = { fg = c.green, style = "bold" },
-			HopNextKey1 = { fg = c.yellow, style = "bold" },
-			HopNextKey2 = { fg = c.orange },
-			HopUnmatched = { fg = c.dark2 },
-
-			InterestingWord1 = { fg = c.bg, bg = c.orange },
-			InterestingWord2 = { fg = c.bg, bg = c.blue },
-			InterestingWord3 = { fg = c.bg, bg = c.green },
-			InterestingWord4 = { fg = c.bg, bg = c.red1 },
-			InterestingWord5 = { fg = c.bg, bg = c.teal },
-			InterestingWord6 = { fg = c.bg, bg = c.magenta },
-		}
-
-	elseif colorscheme == "melange" then
+	if colorscheme == "melange" then
 		local c = require("melange.palettes.dark")
-		-- add orange :P
+		-- add orange
 		c.b.orange = blend(c.b.red, c.b.yellow, 0.5);
 		c.b.dark = blend(c.a.bg, c.a.fg, 0.5);
 		c.b.darkred = blend(c.b.red, c.a.bg, 0.5);
