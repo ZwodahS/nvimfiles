@@ -13,4 +13,3 @@ local options = {
 	mode     = 'background'; -- Set the display mode.
 }
 require('colorizer').setup({}, options)
-m.nmap("<leader>ct", ":ColorizerToggle<CR>")

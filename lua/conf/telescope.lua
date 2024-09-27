@@ -1,6 +1,5 @@
 -- telescope
 -- https://github.com/nvim-telescope/telescope.nvim
-local m = require('conf.mappings')
 require("telescope").setup {
 	defaults = {
 		-- Your defaults config goes in here
@@ -12,7 +11,7 @@ require("telescope").setup {
 				["<C-k>"] = require("telescope.actions").move_selection_previous,
 				["<C-f>"] = require("telescope.actions").send_to_qflist + require("telescope.actions").open_qflist,
 				["<C-q>"] = require("telescope.actions").close,
-				["qqq"] = require("telescope.actions").close,
+				["qq"] = require("telescope.actions").close,
 			},
 			n = {
 				["q"] = require('telescope.actions').close,
@@ -52,23 +51,9 @@ require("telescope").setup {
 			action = function(emoji)
 				vim.api.nvim_put({ emoji.value }, 'c', false, true)
 			end,
+		},
+		file_browser = {
 		}
 	},
 }
 require("telescope").load_extension("emoji")
--- replace ctrlp
-m.nmap('<C-P>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
-m.nmap('<C-T><C-P>', '<cmd>Telescope find_files previewer=false theme=get_dropdown<CR>')
--- open tags
--- Mon 12:30:20 26 Aug 2024 Tag disabled for now, since I don't use it as much
--- m.nmap('<C-T><C-T>', '<cmd>Telescope current_buffer_tags theme=get_dropdown<CR>')
-m.nmap('<C-T><C-J>', '<cmd>Telescope jumplist theme=get_dropdown<CR>')
--- search buffer name
-m.nmap('<C-T><C-B>', '<cmd>Telescope buffers theme=get_dropdown<CR>')
--- this search symlink
--- m.nmap('<leader>tg', '<cmd>Telescope live_grep find_command=rg,--follow,--files<CR>')
--- this does not search symlink
-m.nmap('<C-T><C-S>', '<cmd>Telescope live_grep<CR>')
-m.nmap('<C-T><C-W>', '<cmd>Telescope grep_string<CR>')
-m.nmap('<C-T><C-E><C-J>', '<cmd>Telescope emoji<CR>')
-m.imap('<C-E><C-J>', '<ESC><cmd>Telescope emoji<CR>')

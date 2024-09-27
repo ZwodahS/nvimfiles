@@ -29,6 +29,7 @@ require("lazy").setup({
 	---- Telescope ----
 	{"nvim-telescope/telescope.nvim", branch ="0.1.x" },
 	"xiyaowong/telescope-emoji.nvim",
+	{"nvim-telescope/telescope-file-browser.nvim", dependencies = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"}},
 
 	---- Quick fix ----
 	"kevinhwang91/nvim-bqf",

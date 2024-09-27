@@ -1,5 +1,3 @@
-local m = require('conf.mappings')
-
 vim.g.nvim_tree_refresh_wait = 500
 
 local function on_attach(bufnr)
@@ -124,5 +122,3 @@ require('nvim-tree').setup({
 	}
 })
 
-m.nmap("<leader>f", ":NvimTreeFocus <CR>")
-m.nmap("<leader>F", ":NvimTreeFindFile<CR>:NvimTreeFocus<CR>")

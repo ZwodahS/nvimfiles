@@ -24,7 +24,6 @@ require("conf.theme").setup()
 require("conf.lsp")
 require("conf.hop")
 require("conf.telescope")
-require("conf.undotree")
 require("conf.nvim-cmp")
 require("conf.tag")
 require("conf.jopvim")
@@ -43,6 +42,8 @@ require("conf.filetypes")
 require("conf.test")
 require("conf.projects")
 require("conf.todocomment")
+
+require("conf.keys") -- keys mappings
 
 -- Disabled for now, see lazy.lua for info
 -- require("conf.nvim-treesitter")

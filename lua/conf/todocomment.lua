@@ -6,7 +6,7 @@ require("todo-comments").setup({
   -- keywords recognized as todo comments
   keywords = {
     FIXME = { icon = " ", color = "error" },
-    TODO = { icon = " ", color = "info" },
+    TODO = { icon = " ", color = "info", alt = {"IMPLEMENT"} },
     HACK = { icon = " ", color = "warning", alt = {"WEIRD", "WHY"} },
     OPTIMIZE = { icon = " " },
     NOTE = { icon = " ", color = "hint", alt = { "INFO", "IDEA", "QUESTION" } },
@@ -60,9 +60,3 @@ require("todo-comments").setup({
   },
 })
 
-m.nmap("<C-t><C-r>", "<cmd>TodoTelescope keywords=ISTOPHERE,HERE<CR>")
-m.nmap("<C-t><C-t>", "<cmd>TodoTelescope keywords=TODO<CR>")
-m.nmap("<C-t><C-d>", "<cmd>TodoTelescope<CR>")
-m.nmap("<C-t><C-f>", "<cmd>TodoLocList<CR>")
-m.nmap("]t", '<cmd>lua require("todo-comments").jump_next()<CR>')
-m.nmap("[t", '<cmd>lua require("todo-comments").jump_prev()<CR>')

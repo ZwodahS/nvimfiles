@@ -1,4 +1,3 @@
-local m = require('conf.mappings')
 local cmp = require('cmp')
 local compare = require('cmp.config.compare')
 local types = require('cmp.types')

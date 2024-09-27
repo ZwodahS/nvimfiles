@@ -37,13 +37,14 @@ M.setup = function ()
 		local c = require("melange.palettes.dark")
 		-- add orange
 		c.b.orange = blend(c.b.red, c.b.yellow, 0.5);
-		c.b.dark = blend(c.a.bg, c.a.fg, 0.5);
+		c.b.dark = blend(c.a.bg, c.a.fg, 0.3);
 		c.b.darkred = blend(c.b.red, c.a.bg, 0.5);
 
 		extensions = {
 			ZDatetime = { fg = blend(c.b.blue, c.a.com, 0.6) },
 			ZStop = { fg = "#FF0000" },
 			ZSpecialRed = { fg = c.b.red, },
+			ZSpecialDarkRed = { fg = c.b.darkred, },
 			ZSpecialGreen = { fg = c.b.green },
 			ZSpecialYellow = { fg = c.b.yellow },
 			ZSpecialCyan = { fg = c.b.cyan },
